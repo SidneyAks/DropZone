@@ -8,6 +8,10 @@ Dropzone is a customizable system built in order to expand windows snapping func
 
 The Dropzone app runs in the background, monitoring your keystrokes. When you hit the trigger keys (ctrl + alt + middle click) it activates, displaying a user defined list of zones in which you can drop a given window to. This allowes for more customizable snapping behavior. Additionally, differing layouts can be activated and cycled through as shown above.
 
+### Can I download dropzone as an executable
+
+Not in any way that is supported by the author. This application watches your keyboard and mouse input across the entire operating system -- such behavior could easily be abused by a malicious compiler, as such I strongly recommend you download the code and compile it yourself (You can compile it using visual studio community edition 2019 or later). 
+
 ### How do I customize the zones?
 
 Currently zones are customizable by modifying the config file (there are plans to update this to a nice GUI). The zones are described by a "Target" and "Trigger". A trigger defines the bounds in which you can drop a window, a target defines the where the window goes -- As you can see in the gif above, it's possible to have different target and trigger bounds. The config file, located at %localappdata%\DropZone\ can be modified to add new layouts and new zones. As you can see below, four zones are defined, with differing targets and triggers. Additionally, they have the "layout" paremeter, which can be either "PerScreen" or "Spanning" (for when a user has multiple monitors and wants a zone to span multiple monitors)
