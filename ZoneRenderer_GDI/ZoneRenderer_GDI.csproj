@@ -7,7 +7,7 @@
     <ProjectGuid>{4C6F1E14-C8A8-4C04-9F16-1DEB169C82F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GDIZoneRenderer</RootNamespace>
+    <RootNamespace>ZoneRenderer.GDI</RootNamespace>
     <AssemblyName>GDIZoneRenderer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -48,7 +48,7 @@
       <Project>{e296635f-6b93-4a88-a2fb-fbc57191e2d8}</Project>
       <Name>ZoneRenderer__Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MessagePump\PInvoke_MessagePump.csproj">
+    <ProjectReference Include="..\PInvoke_MessagePump\PInvoke_MessagePump.csproj">
       <Project>{b5692908-d08f-46a7-9c0b-a962b15e6ce6}</Project>
       <Name>PInvoke_MessagePump</Name>
     </ProjectReference>
