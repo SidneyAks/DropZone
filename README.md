@@ -8,7 +8,7 @@ Dropzone is a customizable system built in order to expand windows snapping func
 
 The Dropzone app runs in the background, monitoring your keystrokes. When you hit the trigger keys (ctrl + alt + middle click) it activates, displaying a user defined list of zones in which you can drop a given window to. This allowes for more customizable snapping behavior. Additionally, differing layouts can be activated and cycled through as shown above.
 
-### Can I download dropzone as an executable
+### Can I download dropzone as an executable without having to compile it myself?
 
 Not in any way that is supported by the author. This application watches your keyboard and mouse input across the entire operating system -- such behavior could easily be abused by a malicious compiler, as such I strongly recommend you download the code and compile it yourself (You can compile it using visual studio community edition 2019 or later). 
 
