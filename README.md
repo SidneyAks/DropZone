@@ -78,3 +78,17 @@ Currently zones are customizable by modifying the config file (there are plans t
     </Zones>
 </Layout>
 ```
+
+### It seems really limited -- can you add things like color customization and keystroke customization and ui utility to customize zones and more cool things?
+
+I'm thinking about adding
+* Color customization
+* Keystrong customization
+* UI utility to customize zones
+* Handling screen resolution changes better
+* An option to start with windows
+
+
+### Sounds like this is a half finished product, what the hell?
+
+Yup, you're on github not the windows app store. I'll do my best to only update master with new complete features. Other branches are the wild west, you might get blue screened -- I make no promises (I also make no promises on master).
