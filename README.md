@@ -83,7 +83,7 @@ Currently zones are customizable by modifying the config file (there are plans t
 
 I'm thinking about adding
 * Color customization
-* Keystrong customization
+* ~~Keystroke customization~~
 * UI utility to customize zones
 * Handling screen resolution changes better
 * An option to start with windows
