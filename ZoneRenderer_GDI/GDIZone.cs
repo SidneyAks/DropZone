@@ -160,6 +160,8 @@ namespace ZoneRenderer.GDI
         public override void RenderZone()
         {
             visible = true;
+            TransWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
+            LabelWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
             TransWind.Show();
             LabelWind.Show();
         }
