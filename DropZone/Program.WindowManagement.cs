@@ -95,6 +95,8 @@ namespace DropZone
                 }
             }
 
+            public int TitleBarHeight => GetSystemMetrics(/*SM_CYSIZE = */31);
+
             public bool IsPartOfWindowsUI
             {
                 get
@@ -145,6 +147,9 @@ namespace DropZone
                 public System.Drawing.Point ptMaxPosition;
                 public System.Drawing.Rectangle rcNormalPosition;
             }
+
+            [DllImport("user32.dll")]
+            private static extern int GetSystemMetrics(int smIndex);
 
             [DllImport("user32.dll", SetLastError = true)]
             private static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);

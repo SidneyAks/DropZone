@@ -21,11 +21,80 @@ namespace DropZone
 
         private static DropZone defaultInstance = ((DropZone)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DropZone())));
 
-        public static DropZone Settings
+        public static DropZone Settings => defaultInstance;
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RequireShift
         {
             get
             {
-                return defaultInstance;
+                return ((bool)(this["RequireShift"]));
+            }
+            set
+            {
+                this["RequireShift"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RequireCtrl
+        {
+            get
+            {
+                return ((bool)(this["RequireCtrl"]));
+            }
+            set
+            {
+                this["RequireCtrl"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RequireAlt
+        {
+            get
+            {
+                return ((bool)(this["RequireAlt"]));
+            }
+            set
+            {
+                this["RequireAlt"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RequireWinKey
+        {
+            get
+            {
+                return ((bool)(this["RequireWinKey"]));
+            }
+            set
+            {
+                this["RequireWinKey"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OnlyTriggerOnTitleBarClick
+        {
+            get
+            {
+                return ((bool)(this["OnlyTriggerOnTitleBarClick"]));
+            }
+            set
+            {
+                this["OnlyTriggerOnTitleBarClick"] = value;
             }
         }
 
@@ -52,6 +121,37 @@ namespace DropZone
                 this["Zones"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LeftButton")]
+        public Program.MouseButtonTriggers TriggerButton
+        {
+            get
+            {
+                return ((Program.MouseButtonTriggers)(this["TriggerButton"]));
+            }
+            set
+            {
+                this["TriggerButton"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RightButton")]
+        public Program.MouseButtonTriggers SwapButton
+        {
+            get
+            {
+                return ((Program.MouseButtonTriggers)(this["SwapButton"]));
+            }
+            set
+            {
+                this["SwapButton"] = value;
+            }
+        }
+
 
         private static LayoutCollection DefaultLayoutCollection => new LayoutCollection()
         {

@@ -1,5 +1,6 @@
 ﻿using GlobalLowLevelHooks;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
@@ -9,6 +10,13 @@ namespace DropZone
 {
     public partial class Program
     {
+        public enum MouseButtonTriggers
+        {
+            LeftButton,
+            MiddleButton,
+            RightButton,
+        }
+
         private static KeyboardHook khook = new KeyboardHook();
         private static MouseHook mhook = new MouseHook();
 
@@ -24,7 +32,22 @@ namespace DropZone
         }
         public static state s = default;
 
-        public static state Trigger = state.ctrl | state.alt;
+        public static state Trigger
+        {
+            get
+            {
+                if (trigger == null)
+                {
+                    trigger = 0;
+                    trigger |= DropZone.Settings.RequireCtrl ? state.ctrl : 0;
+                    trigger |= DropZone.Settings.RequireAlt ? state.alt : 0;
+                    trigger |= DropZone.Settings.RequireShift ? state.shift : 0;
+                    trigger |= DropZone.Settings.RequireWinKey ? state.win : 0;
+                }
+                return trigger.Value;
+            }
+        }
+        private static state? trigger;
 
         private static WindowRef candidateWindow;
 
@@ -50,64 +73,39 @@ namespace DropZone
 #endif
         private static void RegisterInputHooks()
         {
-            mhook.MiddleButtonDown += (MSLLHOOKSTRUCT m) =>
+            if (DropZone.Settings.TriggerButton == DropZone.Settings.SwapButton)
             {
-                if (s.HasFlag(Trigger))
-                {
-                    candidateWindow = GetWindowDetailsFromPoint(m.pt);
-                    if (candidateWindow.IsPartOfWindowsUI)
-                    {
-#if DEBUG
-                        Console.WriteLine("Candidate Window is shell window -- NO!");
-#endif
-                        candidateWindow = null;
-                        return;
-                    }
+                throw new Exception("Trigger and Swap buttons cannot be same mouse button");
+            }
 
-                    s.Add(state.active);
-                    new System.Threading.Tasks.Task(() =>
-                    {
-                        mhook.MouseMove += Mhook_MouseMove;
-                        renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
-                        renderer.RenderZone();
-                    }).Start();
-#if DEBUG
-                    printState(m);
-#endif
-                }
-            };
-
-            
-
-            mhook.MiddleButtonUp += (MSLLHOOKSTRUCT m) =>
+            switch (DropZone.Settings.TriggerButton)
             {
-                s.Remove(state.active);
-                new System.Threading.Tasks.Task(() =>
-                {
-                    mhook.MouseMove -= Mhook_MouseMove;
-                    renderer.HideZone();
-                    var Zone = LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y);
-                    if (Zone != null && candidateWindow != null)
-                    {
-                        candidateWindow.MoveTo(Zone.Target.Left, Zone.Target.Top, Zone.Target.Right, Zone.Target.Bottom);
-                    }
-                    candidateWindow = null;
-                }).Start();
-            };
+                case MouseButtonTriggers.LeftButton:
+                    mhook.LeftButtonDown += MouseButtonDown;
+                    mhook.LeftButtonUp += MouseButtonUp;
+                    break;
+                case MouseButtonTriggers.MiddleButton:
+                    mhook.MiddleButtonDown += MouseButtonDown;
+                    mhook.MiddleButtonUp += MouseButtonUp;
+                    break;
+                case MouseButtonTriggers.RightButton:
+                    mhook.RightButtonDown += MouseButtonDown;
+                    mhook.RightButtonUp += MouseButtonUp;
+                    break;
+            }
 
-            mhook.RightButtonDown += (MSLLHOOKSTRUCT m) =>
+            switch (DropZone.Settings.SwapButton)
             {
-
-                if (s.HasFlag(state.active))
-                {
-                    new System.Threading.Tasks.Task(() =>
-                    {
-                        renderer.UpdateZones(LayoutCollection.ActivateNextZone());
-                        renderer.ActivateSector(null);
-                        renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
-                    }).Start();
-                }
-            };
+                case MouseButtonTriggers.LeftButton:
+                    mhook.LeftButtonDown += SwapButtonDown;
+                    break;
+                case MouseButtonTriggers.MiddleButton:
+                    mhook.MiddleButtonDown += SwapButtonDown;
+                    break;
+                case MouseButtonTriggers.RightButton:
+                    mhook.RightButtonDown += SwapButtonDown;
+                    break;
+            }
 
             khook.KeyDown += (KeyboardHook.VKeys key) =>
             {
@@ -175,6 +173,70 @@ namespace DropZone
 
             mhook.Install();
             khook.Install();
+        }
+
+        private static void MouseButtonDown(MSLLHOOKSTRUCT m)
+        {
+            if (s.HasFlag(Trigger))
+            {
+                candidateWindow = GetWindowDetailsFromPoint(m.pt);
+                if (candidateWindow.IsPartOfWindowsUI)
+                {
+#if DEBUG
+                    Console.WriteLine("Candidate Window is shell window -- NO!");
+#endif
+                    candidateWindow = null;
+                    return;
+                } if (DropZone.Settings.OnlyTriggerOnTitleBarClick && m.pt.y > candidateWindow.rect.Top + candidateWindow.TitleBarHeight)
+                {
+#if DEBUG
+                    Console.WriteLine("Click detected, but not in title bar constraints");
+#endif
+                    candidateWindow = null;
+                    return;
+                }
+
+                s.Add(state.active);
+                new System.Threading.Tasks.Task(() =>
+                {
+                    mhook.MouseMove += Mhook_MouseMove;
+                    renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
+                    renderer.RenderZone();
+                }).Start();
+#if DEBUG
+                printState(m);
+#endif
+            }
+
+        }
+
+        private static void MouseButtonUp(MSLLHOOKSTRUCT m)
+        {
+            s.Remove(state.active);
+            new System.Threading.Tasks.Task(() =>
+            {
+                mhook.MouseMove -= Mhook_MouseMove;
+                renderer.HideZone();
+                var Zone = LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y);
+                if (Zone != null && candidateWindow != null)
+                {
+                    candidateWindow.MoveTo(Zone.Target.Left, Zone.Target.Top, Zone.Target.Right, Zone.Target.Bottom);
+                }
+                candidateWindow = null;
+            }).Start();
+        }
+
+        private static void SwapButtonDown(MSLLHOOKSTRUCT m)
+        {
+            if (s.HasFlag(state.active))
+            {
+                new System.Threading.Tasks.Task(() =>
+                {
+                    renderer.UpdateZones(LayoutCollection.ActivateNextZone());
+                    renderer.ActivateSector(null);
+                    renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
+                }).Start();
+            }
         }
 
         private static void Mhook_MouseMove(MSLLHOOKSTRUCT m)
