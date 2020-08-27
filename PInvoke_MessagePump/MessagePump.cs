@@ -31,24 +31,29 @@ namespace MessagePump
             {
                 IntPtr hwnd;
                 public uint message;
-                UIntPtr wParam;
-                IntPtr lParam;
-                uint time;
-                POINT pt;
+                public UIntPtr wParam;
+                public IntPtr lParam;
+                public uint time;
+                public POINT pt;
             }
         }
 
         private static int? ExitCode;
 
-        public static int Start()
+        public static int Start(Action<String, Exception> ErrorHandler)
         {
             User32Wrapper.MSG msg = new User32Wrapper.MSG();
             while (!ExitCode.HasValue && User32Wrapper.GetMessage(ref msg, IntPtr.Zero, 0, 0))
             {
-
-                User32Wrapper.TranslateMessage(ref msg);
-                User32Wrapper.DispatchMessage(ref msg);
-                System.Threading.Thread.Sleep(10);
+                try 
+                {
+                    User32Wrapper.TranslateMessage(ref msg);
+                    User32Wrapper.DispatchMessage(ref msg);
+                    System.Threading.Thread.Sleep(10);
+                } catch (Exception ex)
+                {
+                    ErrorHandler($"Caught exception for msg {msg.message}, wparam={msg.wParam}, lparam={msg.lParam}, tine={msg.time} pt={msg.pt}", ex);
+                }
             }
             return ExitCode.Value;
         }

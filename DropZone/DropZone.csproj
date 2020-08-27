@@ -63,19 +63,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GDIZoneRenderer\ZoneRenderer_GDI.csproj">
-      <Project>{4c6f1e14-c8a8-4c04-9f16-1deb169c82f2}</Project>
-      <Name>ZoneRenderer_GDI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Global-Low-Level-Key-Board-And-Mouse-Hook-master\GlobalLowLevelHooks\PInvoke_GlobalLowLevelHooks.csproj">
-      <Project>{77eb5498-54dd-4dca-aff6-f9b2c6f97fe3}</Project>
-      <Name>PInvoke_GlobalLowLevelHooks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PInvoke_GDIWindow\PInvoke_GDIWindow.csproj">
       <Project>{ad96ba5c-004e-4bd7-b6dc-fbfe1b3c6972}</Project>
       <Name>PInvoke_GDIWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SystemTray\PInvoke_SystemTray.csproj">
+    <ProjectReference Include="..\PInvoke_GlobalLowLevelHooks\GlobalLowLevelHooks\PInvoke_GlobalLowLevelHooks.csproj">
+      <Project>{77eb5498-54dd-4dca-aff6-f9b2c6f97fe3}</Project>
+      <Name>PInvoke_GlobalLowLevelHooks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PInvoke_MessagePump\PInvoke_MessagePump.csproj">
+      <Project>{b5692908-d08f-46a7-9c0b-a962b15e6ce6}</Project>
+      <Name>PInvoke_MessagePump</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PInvoke_SystemTray\PInvoke_SystemTray.csproj">
       <Project>{285e0f73-9eaf-4a15-b955-33ec32b87d9d}</Project>
       <Name>PInvoke_SystemTray</Name>
     </ProjectReference>
@@ -83,9 +83,9 @@
       <Project>{e296635f-6b93-4a88-a2fb-fbc57191e2d8}</Project>
       <Name>ZoneRenderer__Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MessagePump\PInvoke_MessagePump.csproj">
-      <Project>{b5692908-d08f-46a7-9c0b-a962b15e6ce6}</Project>
-      <Name>PInvoke_MessagePump</Name>
+    <ProjectReference Include="..\ZoneRenderer_GDI\ZoneRenderer_GDI.csproj">
+      <Project>{4c6f1e14-c8a8-4c04-9f16-1deb169c82f2}</Project>
+      <Name>ZoneRenderer_GDI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

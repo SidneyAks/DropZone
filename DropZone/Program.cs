@@ -18,6 +18,8 @@ namespace DropZone
         [STAThread]
         static int Main(string[] args)
         {
+            if (PriorProcess != null) return 1;
+
             var dic = ScreenInfo.GetDisplays();
             LayoutCollection = DropZone.Settings.Zones;
             renderer = new ZoneRenderer.GDI.GDIZone(dic.MaxWidth, dic.MaxHeight, LayoutCollection.ActiveLayout);
@@ -39,7 +41,9 @@ namespace DropZone
             HideConsole();
 #endif
             RegisterInputHooks();
-            return MessagePump.Pump.Start();
+            return MessagePump.Pump.Start((str, ex) => {
+                t.PostInfo("DropZone Error", str);
+            });
         }
 
         private static Bitmap GetDropzoneIcon()
@@ -114,6 +118,22 @@ namespace DropZone
                     }
                 }
 
+            }
+        }
+
+        public static Process PriorProcess
+        {
+            get
+            {
+                Process curr = Process.GetCurrentProcess();
+                Process[] procs = Process.GetProcessesByName(curr.ProcessName);
+                foreach (Process p in procs)
+                {
+                    if ((p.Id != curr.Id) &&
+                        (p.MainModule.FileName == curr.MainModule.FileName))
+                        return p;
+                }
+                return null;
             }
         }
     }
