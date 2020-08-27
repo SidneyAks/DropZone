@@ -2,8 +2,10 @@
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
+using ZoneRenderer;
 using static GlobalLowLevelHooks.MouseHook;
 
 namespace DropZone
@@ -201,7 +203,10 @@ namespace DropZone
                 {
                     mhook.MouseMove += Mhook_MouseMove;
                     renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
-                    renderer.RenderZone();
+
+                    LayoutCollection.DestroyCache();
+
+                    renderer.RenderZone(ScreenInfo.GetDisplays().MaxWidth, ScreenInfo.GetDisplays().MaxHeight);
                 }).Start();
 #if DEBUG
                 printState(m);

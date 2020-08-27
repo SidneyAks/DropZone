@@ -17,5 +17,10 @@ namespace ZoneRenderer
             activeLayout = this[(this.IndexOf(ActiveLayout) + 1) % this.Count];
             return activeLayout;
         }
+
+        public void DestroyCache()
+        {
+            this.ForEach(x => x.DestroyCache());
+        }
     }
 }

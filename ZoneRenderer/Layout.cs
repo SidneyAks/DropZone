@@ -20,6 +20,11 @@ namespace ZoneRenderer
         public List<RenderedZone> RenderedZones => rZones ?? (rZones = renderZones().ToList());
         private List<RenderedZone> rZones;
 
+        public void DestroyCache()
+        {
+            rZones = null;
+        }
+
         private IEnumerable<RenderedZone> renderZones()
         {
             var displayinfo = ScreenInfo.GetDisplays();

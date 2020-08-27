@@ -157,11 +157,16 @@ namespace ZoneRenderer.GDI
 
         }
 
-        public override void RenderZone()
+        public override void RenderZone(int ScreenWidth, int ScreenHeight)
         {
+            TransWind.Width = LabelWind.Width = ScreenWidth;
+            TransWind.Height = LabelWind.Height = ScreenHeight;
+
             visible = true;
-            TransWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
-            LabelWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
+            TransWind.ZPos = LabelWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
+            
+            LabelsDirty = true;
+
             TransWind.Show();
             LabelWind.Show();
         }

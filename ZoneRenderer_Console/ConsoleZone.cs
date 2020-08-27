@@ -30,7 +30,7 @@ namespace ZoneRenderer.Console
             System.Console.WriteLine("Zone hidden!");
         }
 
-        public override void RenderZone()
+        public override void RenderZone(int ScreenWidth, int ScreenHeight)
         {
             System.Console.WriteLine("Zone Shown!");
         }

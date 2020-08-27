@@ -11,7 +11,7 @@ namespace ZoneRenderer
     {
         public abstract void UpdateZones(Layout Layout);
 
-        public abstract void RenderZone();
+        public abstract void RenderZone(int ScreenWidth, int ScreenHeight);
 
         public abstract void HideZone();
 

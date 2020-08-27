@@ -70,7 +70,7 @@ namespace ZoneRenderer.WPF
             });
         }
 
-        public override void RenderZone()
+        public override void RenderZone(int ScreenWidth, int ScreenHeight)
         {
             WinApp?.Dispatcher.Invoke(() =>
             {

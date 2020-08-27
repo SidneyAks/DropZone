@@ -85,7 +85,7 @@ I'm thinking about adding
 * Color customization
 * ~~Keystroke customization~~
 * UI utility to customize zones
-* Handling screen resolution changes better
+* ~~Handling screen resolution changes better~~
 * An option to start with windows
 
 
