@@ -1,6 +1,7 @@
 ﻿using GDIWindow.Win32Enums;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace DropZone
         {
             if (PriorProcess != null) return 1;
 
+            IZoneRenderer.ActiveZoneColor = Color.FromArgb(Int32.Parse(DropZone.Settings.ActiveColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
+            IZoneRenderer.BackgroundOpacity = DropZone.Settings.BackgroundOpacity;
+//            IZoneRenderer.BackgroundColor = Color.FromArgb(Int32.Parse(DropZone.Settings.BackgroundColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
+            IZoneRenderer.LabelColor = Color.FromArgb(Int32.Parse(DropZone.Settings.LabelColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
+
             var dic = ScreenInfo.GetDisplays();
             LayoutCollection = DropZone.Settings.Zones;
             renderer = new ZoneRenderer.GDI.GDIZone(dic.MaxWidth, dic.MaxHeight, LayoutCollection.ActiveLayout);
@@ -34,7 +40,6 @@ namespace DropZone
             };
 
             t.PostInfo("DropZone Running", "Dropzone will run in the background, click the system try icon to close the process");
-
 #if DEBUG
             ShowConsole();
 #else

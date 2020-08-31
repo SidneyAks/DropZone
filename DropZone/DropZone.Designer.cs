@@ -8,6 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+using System.Globalization;
+using System.Runtime.Remoting.Messaging;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using ZoneRenderer;
 
 namespace DropZone
@@ -22,6 +28,81 @@ namespace DropZone
         private static DropZone defaultInstance = ((DropZone)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DropZone())));
 
         public static DropZone Settings => defaultInstance;
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LeftButton")]
+        public Program.MouseButtonTriggers TriggerButton
+        {
+            get
+            {
+                return ((Program.MouseButtonTriggers)(this["TriggerButton"]));
+            }
+            set
+            {
+                this["TriggerButton"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RightButton")]
+        public Program.MouseButtonTriggers SwapButton
+        {
+            get
+            {
+                return ((Program.MouseButtonTriggers)(this["SwapButton"]));
+            }
+            set
+            {
+                this["SwapButton"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#BBFFFFFF")]
+        public String ActiveColor
+        {
+            get
+            {
+                return ((String)(this["ActiveColor"]));
+            }
+            set
+            {
+                this["ActiveColor"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public Byte BackgroundOpacity
+        {
+            get
+            {
+                return ((Byte)(this["BackgroundOpacity"]));
+            }
+            set
+            {
+                this["BackgroundOpacity"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFF7D7D")]
+        public String LabelColor
+        {
+            get
+            {
+                return ((String)(this["LabelColor"]));
+            }
+            set
+            {
+                this["LabelColor"] = value;
+            }
+        }
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -121,37 +202,6 @@ namespace DropZone
                 this["Zones"] = value;
             }
         }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("LeftButton")]
-        public Program.MouseButtonTriggers TriggerButton
-        {
-            get
-            {
-                return ((Program.MouseButtonTriggers)(this["TriggerButton"]));
-            }
-            set
-            {
-                this["TriggerButton"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("RightButton")]
-        public Program.MouseButtonTriggers SwapButton
-        {
-            get
-            {
-                return ((Program.MouseButtonTriggers)(this["SwapButton"]));
-            }
-            set
-            {
-                this["SwapButton"] = value;
-            }
-        }
-
 
         private static LayoutCollection DefaultLayoutCollection => new LayoutCollection()
         {

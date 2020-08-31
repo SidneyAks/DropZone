@@ -128,7 +128,7 @@ namespace ZoneRenderer.GDI
                 Height = ScreenInfo.GetDisplays().MaxHeight + GDIWindow.WinApi.WinAPI.GetSystemMetrics(GDIWindow.Win32Enums.SystemMetric.SM_CYCAPTION) + 15,
                 ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost,
                 Style = GDIWindow.Win32Enums.WindowStylesEx.WS_EX_VisualStudioEmulation | GDIWindow.Win32Enums.WindowStylesEx.WS_EX_TOPMOST,
-                Transparency = 128,
+                Transparency = BackgroundOpacity,
             };
 
             LabelWind = new Window("ZoneMove1", LabelPaintFunc, TransWind.Handle, hidden: true, delayShow: true)
@@ -160,10 +160,10 @@ namespace ZoneRenderer.GDI
         public override void RenderZone(int ScreenWidth, int ScreenHeight)
         {
             TransWind.Width = LabelWind.Width = ScreenWidth;
-            TransWind.Height = LabelWind.Height = ScreenHeight;
+            TransWind.Height = LabelWind.Height = ScreenHeight + GDIWindow.WinApi.WinAPI.GetSystemMetrics(GDIWindow.Win32Enums.SystemMetric.SM_CYCAPTION) + 15;
 
             visible = true;
-            TransWind.ZPos = LabelWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
+            LabelWind.ZPos = TransWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
             
             LabelsDirty = true;
 
