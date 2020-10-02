@@ -43,7 +43,7 @@ namespace MessagePump
         public static int Start(Action<String, Exception> ErrorHandler)
         {
             User32Wrapper.MSG msg = new User32Wrapper.MSG();
-            while (!ExitCode.HasValue && User32Wrapper.GetMessage(ref msg, IntPtr.Zero, 0, 0))
+            while (!ExitCode.HasValue && User32Wrapper.GetMessage(ref msg, IntPtr.Zero, 0x200, 0x020E))
             {
                 try 
                 {
