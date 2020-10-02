@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace GlobalLowLevelHooks
 {
@@ -22,15 +24,17 @@ namespace GlobalLowLevelHooks
         public delegate void MouseHookCallback(MSLLHOOKSTRUCT mouseStruct);
 
         #region Events
-        public event MouseHookCallback LeftButtonDown;
-        public event MouseHookCallback LeftButtonUp;
-        public event MouseHookCallback RightButtonDown;
-        public event MouseHookCallback RightButtonUp;
-        public event MouseHookCallback MouseMove;
-        public event MouseHookCallback MouseWheel;
-        public event MouseHookCallback DoubleClick;
-        public event MouseHookCallback MiddleButtonDown;
-        public event MouseHookCallback MiddleButtonUp;
+        public event MouseHookCallback LeftButtonDown { add => EventLookup[MouseMessages.WM_LBUTTONDOWN] += value;  remove => EventLookup[MouseMessages.WM_LBUTTONDOWN] -= value; }
+        public event MouseHookCallback LeftButtonUp { add => EventLookup[MouseMessages.WM_LBUTTONUP] += value; remove => EventLookup[MouseMessages.WM_LBUTTONUP] -= value; }
+        public event MouseHookCallback RightButtonDown { add => EventLookup[MouseMessages.WM_RBUTTONDOWN] += value; remove => EventLookup[MouseMessages.WM_RBUTTONDOWN] -= value; }
+        public event MouseHookCallback RightButtonUp { add => EventLookup[MouseMessages.WM_RBUTTONUP] += value; remove => EventLookup[MouseMessages.WM_RBUTTONUP] -= value; }
+        public event MouseHookCallback MouseMove { add => EventLookup[MouseMessages.WM_MOUSEMOVE] += value; remove => EventLookup[MouseMessages.WM_MOUSEMOVE] -= value; }
+        public event MouseHookCallback MouseWheel { add => EventLookup[MouseMessages.WM_MOUSEWHEEL] += value; remove => EventLookup[MouseMessages.WM_MOUSEWHEEL] -= value; }
+        public event MouseHookCallback DoubleClick { add => EventLookup[MouseMessages.WM_LBUTTONDBLCLK] += value; remove => EventLookup[MouseMessages.WM_LBUTTONDBLCLK] -= value; }
+        public event MouseHookCallback MiddleButtonDown { add => EventLookup[MouseMessages.WM_MBUTTONDOWN] += value; remove => EventLookup[MouseMessages.WM_MBUTTONDOWN] -= value; }
+        public event MouseHookCallback MiddleButtonUp { add => EventLookup[MouseMessages.WM_MBUTTONUP] += value; remove => EventLookup[MouseMessages.WM_MBUTTONUP] -= value; }
+
+        private Dictionary<MouseMessages, MouseHookCallback> EventLookup = Enum.GetValues(typeof(MouseMessages)).OfType<MouseMessages>().ToDictionary(k => k, v => (MouseHookCallback)null);
         #endregion
 
         /// <summary>
@@ -85,35 +89,9 @@ namespace GlobalLowLevelHooks
         private IntPtr HookFunc(int nCode, IntPtr wParam, IntPtr lParam)
         {
             // parse system messages
-            if (nCode >= 0)
+            if (nCode >= 0 && (MouseMessages)wParam != MouseMessages.WM_MOUSEWHEEL)
             {
-                if (MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
-                    if (LeftButtonDown != null)
-                        LeftButtonDown((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_LBUTTONUP == (MouseMessages)wParam)
-                    if (LeftButtonUp != null)
-                        LeftButtonUp((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_RBUTTONDOWN == (MouseMessages)wParam)
-                    if (RightButtonDown != null)
-                        RightButtonDown((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_RBUTTONUP == (MouseMessages)wParam)
-                    if (RightButtonUp != null)
-                        RightButtonUp((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_MOUSEMOVE == (MouseMessages)wParam)
-                    if (MouseMove != null)
-                        MouseMove((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_MOUSEWHEEL == (MouseMessages)wParam)
-                    if (MouseWheel != null)
-                        MouseWheel((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_LBUTTONDBLCLK == (MouseMessages)wParam)
-                    if (DoubleClick != null)
-                        DoubleClick((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_MBUTTONDOWN == (MouseMessages)wParam)
-                    if (MiddleButtonDown != null)
-                        MiddleButtonDown((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
-                if (MouseMessages.WM_MBUTTONUP == (MouseMessages)wParam)
-                    if (MiddleButtonUp != null)
-                        MiddleButtonUp((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
+                EventLookup[(MouseMessages)wParam]?.Invoke(((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT))));
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
