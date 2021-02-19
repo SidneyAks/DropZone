@@ -26,8 +26,7 @@ namespace ZoneRenderer
 
     public enum LayoutKind
     {
-        Duplicated,
-        Spanning,
-        SelectedScreens
+        PerScreen,
+        Spanning
     }
 }
