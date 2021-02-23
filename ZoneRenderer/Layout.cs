@@ -28,24 +28,11 @@ namespace ZoneRenderer
         private IEnumerable<RenderedZone> renderZones()
         {
             var displayinfo = ScreenInfo.GetDisplays();
-            /*return LayoutType == LayoutKind.PerScreen ?
-                                
-                displayinfo.SelectMany(y => List.Select(x => 
-                    x.Render(
-                        x: y.WorkArea.Left,
-                        y: y.WorkArea.Top,
-                        LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,
-                        LayoutHeight: y.WorkArea.Bottom - y.WorkArea.Top)
-                )):
-                List.Select(x =>
-                    x.Render(
-                            x: 0,
-                            y: 0,
-                            LayoutWidth: displayinfo.MaxWidth,
-                            LayoutHeight: displayinfo.MaxHeight
-                )).ToList();*/
-            return List.SelectMany(zone =>  
-                zone.Layout == LayoutKind.PerScreen ? displayinfo.Select(y => zone.Render(
+
+            //I realize I could write this without using a disgusting amalgamation of ternary
+            //and linq, but honestly, I kind of think it's beautiful in it's own horrible way.
+            var foo =  List.SelectMany(zone =>  
+                zone.Layout == LayoutKind.Duplicated ? displayinfo.Select(y => zone.Render(
                         x: y.WorkArea.Left,
                         y: y.WorkArea.Top,
                         LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,
@@ -57,8 +44,21 @@ namespace ZoneRenderer
                         LayoutWidth: displayinfo.MaxWidth,
                         LayoutHeight: displayinfo.MaxHeight
                     )} :
+                zone.Layout == LayoutKind.SelectedScreens ? zone.ScreenIndexes
+                                                                    .Where(x => x < displayinfo.Count())
+                                                                    .Select(x => displayinfo[x])
+                                                                    .Select(y => zone.Render(
+                        x: y.WorkArea.Left,
+                        y: y.WorkArea.Top,
+                        LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,
+                        LayoutHeight: y.WorkArea.Bottom - y.WorkArea.Top
+                    )) :
                 throw new Exception("Unknown layout kind (how did you even do that with an enum?")
             );
+
+            Console.WriteLine($"Getting {foo.Count()} zones from {Name}");
+
+            return foo;
         }
 
         public RenderedZone GetActiveZoneFromPoint(int x, int y)
