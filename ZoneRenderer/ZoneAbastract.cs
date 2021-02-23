@@ -18,7 +18,7 @@ namespace ZoneRenderer
         public string Screens { get; set; }
 
         public int[] ScreenIndexes {
-            get => Screens.Split(',').Select(x => Int32.Parse(x)).ToArray();
+            get => Screens?.Split(',').Select(x => Int32.Parse(x)).ToArray() ?? new List<int>().ToArray();
             set => Screens = string.Join(",", value);
         }
      
