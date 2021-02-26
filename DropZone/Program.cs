@@ -19,11 +19,13 @@ namespace DropZone
         [STAThread]
         static int Main(string[] args)
         {
-            if (PriorProcess != null) return 1;
+            if (PriorProcess != null)
+            {
+                PriorProcess.Kill();
+            }
 
             IZoneRenderer.ActiveZoneColor = Color.FromArgb(Int32.Parse(DropZone.Settings.ActiveColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
             IZoneRenderer.BackgroundOpacity = DropZone.Settings.BackgroundOpacity;
-//            IZoneRenderer.BackgroundColor = Color.FromArgb(Int32.Parse(DropZone.Settings.BackgroundColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
             IZoneRenderer.LabelColor = Color.FromArgb(Int32.Parse(DropZone.Settings.LabelColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
 
             var dic = ScreenInfo.GetDisplays();
