@@ -30,7 +30,7 @@ namespace DropZone
 
             var dic = ScreenInfo.GetDisplays();
             LayoutCollection = DropZone.Settings.Zones;
-            renderer = new ZoneRenderer.GDI.GDIZone(dic.MaxWidth, dic.MaxHeight, LayoutCollection.ActiveLayout);
+            renderer = new ZoneRenderer.GDI.GDIZone(LayoutCollection.ActiveLayout);
 
             var t = new SystemTray.TrayIcon(Process.GetCurrentProcess().Handle, "Exit Drop Zone", GetDropzoneIcon().GetHicon());
             t.Events[SystemTray.TrayIcon.MouseMessages.WM_LBUTTONDOWN] += (s, e) => {

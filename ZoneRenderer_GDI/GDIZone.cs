@@ -23,49 +23,7 @@ namespace ZoneRenderer.GDI
         private static Brush InactiveBrush = new SolidBrush(BackgroundColor);
         private static Brush Black = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-        private RenderedLayout Layout;
-        private RenderedZone ActiveZone;
-
-        private bool visible = false;
-        private bool TransparencyDirty = true;
-        private bool LabelsDirty = true;
-
-        private GDIWindow.Win32Delegates.WndProc TransparencyPaintFunc => _transparencyPaintFunc ?? (_transparencyPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
-        {
-            if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
-            {
-                if (!TransparencyDirty || !visible)
-                {
-                    return IntPtr.Zero;
-                }
-                else
-                {
-                    PaintTransparency(hWnd, ActiveZone);
-                    TransparencyDirty = false;
-                    return IntPtr.Zero;
-                }
-            }
-
-            return GDIWindow.WinApi.WinAPI.DefWindowProc(hWnd, (GDIWindow.Win32Enums.WM)message, wParam, lParam);
-        }));
-        private GDIWindow.Win32Delegates.WndProc _transparencyPaintFunc;
-
-        private GDIWindow.Win32Delegates.WndProc LabelPaintFunc => _labelPaintFunc ?? (_labelPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
-        {
-
-            if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
-            {
-                if (!LabelsDirty || !visible) return IntPtr.Zero;
-                PaintLabel(hWnd, Layout);
-                LabelsDirty = false;
-                return IntPtr.Zero;
-            }
-
-            return GDIWindow.WinApi.WinAPI.DefWindowProc(hWnd, (GDIWindow.Win32Enums.WM)message, wParam, lParam);
-        }));
-        private GDIWindow.Win32Delegates.WndProc _labelPaintFunc;
-
-        public static void PaintTransparency(IntPtr hWnd, RenderedZone ActiveZone = null )
+        public static void PaintTransparency(IntPtr hWnd, RenderedZone ActiveZone = null)
         {
             GDIWindow.Win32Structs.PAINTSTRUCT ps;
             GDIWindow.Win32Structs.RECT rect;
@@ -124,9 +82,6 @@ namespace ZoneRenderer.GDI
             GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
         }
 
-        private Window TransWind;
-        private Window LabelWind;
-
         public GDIZone(RenderedLayout Layout)
         {
             var instanceHandle = System.Diagnostics.Process.GetCurrentProcess().Handle;
@@ -175,7 +130,7 @@ namespace ZoneRenderer.GDI
 
             visible = true;
             LabelWind.ZPos = TransWind.ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost;
-            
+
             LabelsDirty = true;
 
             TransWind.Show();
@@ -191,7 +146,7 @@ namespace ZoneRenderer.GDI
 
         public override void ActivateSector(RenderedZone Zone)
         {
-            if (!Object.ReferenceEquals(ActiveZone,Zone))
+            if (!Object.ReferenceEquals(ActiveZone, Zone))
             {
                 TransparencyDirty = true;
                 ActiveZone = Zone;
@@ -199,5 +154,50 @@ namespace ZoneRenderer.GDI
                 LabelWind.UpdateWindow();
             }
         }
+
+        private RenderedLayout Layout;
+        private RenderedZone ActiveZone;
+
+        private bool visible = false;
+        private bool TransparencyDirty = true;
+        private bool LabelsDirty = true;
+
+        private GDIWindow.Win32Delegates.WndProc TransparencyPaintFunc => _transparencyPaintFunc ?? (_transparencyPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
+        {
+            if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
+            {
+                if (!TransparencyDirty || !visible)
+                {
+                    return IntPtr.Zero;
+                }
+                else
+                {
+                    PaintTransparency(hWnd, ActiveZone);
+                    TransparencyDirty = false;
+                    return IntPtr.Zero;
+                }
+            }
+
+            return GDIWindow.WinApi.WinAPI.DefWindowProc(hWnd, (GDIWindow.Win32Enums.WM)message, wParam, lParam);
+        }));
+        private GDIWindow.Win32Delegates.WndProc _transparencyPaintFunc;
+
+        private GDIWindow.Win32Delegates.WndProc LabelPaintFunc => _labelPaintFunc ?? (_labelPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
+        {
+
+            if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
+            {
+                if (!LabelsDirty || !visible) return IntPtr.Zero;
+                PaintLabel(hWnd, Layout);
+                LabelsDirty = false;
+                return IntPtr.Zero;
+            }
+
+            return GDIWindow.WinApi.WinAPI.DefWindowProc(hWnd, (GDIWindow.Win32Enums.WM)message, wParam, lParam);
+        }));
+        private GDIWindow.Win32Delegates.WndProc _labelPaintFunc;
+
+        private Window TransWind;
+        private Window LabelWind;
     }
 }
