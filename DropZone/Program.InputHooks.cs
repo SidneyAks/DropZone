@@ -204,8 +204,6 @@ namespace DropZone
                     mhook.MouseMove += Mhook_MouseMove;
                     renderer.ActivateSector(LayoutCollection.ActiveLayout.GetActiveZoneFromPoint(m.pt.x, m.pt.y));
 
-                    LayoutCollection.DestroyCache();
-
                     renderer.RenderZone(ScreenInfo.GetDisplays().MaxWidth, ScreenInfo.GetDisplays().MaxHeight);
                 }).Start();
 #if DEBUG

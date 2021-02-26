@@ -9,18 +9,13 @@ namespace ZoneRenderer
     [XmlRoot("Layouts")]
     public class LayoutCollection : List<Layout>
     {
-        public Layout ActiveLayout => activeLayout ?? (activeLayout = this.First());
-        private Layout activeLayout;
+        public RenderedLayout ActiveLayout => activeLayout ?? (activeLayout = this.First().Render());
+        private RenderedLayout activeLayout;
 
-        public Layout ActivateNextZone()
+        public RenderedLayout ActivateNextZone()
         {
-            activeLayout = this[(this.IndexOf(ActiveLayout) + 1) % this.Count];
+            activeLayout = this[(this.IndexOf(ActiveLayout.Base) + 1) % this.Count].Render();
             return activeLayout;
-        }
-
-        public void DestroyCache()
-        {
-            this.ForEach(x => x.DestroyCache());
         }
     }
 }

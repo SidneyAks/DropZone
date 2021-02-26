@@ -9,7 +9,7 @@ namespace ZoneRenderer
 {
     public abstract class IZoneRenderer
     {
-        public abstract void UpdateZones(Layout Layout);
+        public abstract void UpdateZones(RenderedLayout Layout);
 
         public abstract void RenderZone(int ScreenWidth, int ScreenHeight);
 

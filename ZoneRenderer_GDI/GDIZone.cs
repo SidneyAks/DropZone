@@ -25,9 +25,9 @@ namespace ZoneRenderer.GDI
         private Brush Black = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
 
-        private Layout Layout;
+        private RenderedLayout Layout { get; set; }
 
-        private RenderedZone ActiveZone;
+        private RenderedZone ActiveZone {get;set;}
 
         private bool visible = false;
 
@@ -84,16 +84,16 @@ namespace ZoneRenderer.GDI
                     g.FillRectangle(Black,
                     rect.Left, rect.Top, rect.Width, rect.Height);
 
-                    if (Layout.Name != null)
+                    if (Layout.Base.Name != null)
                     {
-                        var size = g.MeasureString(Layout.Name, LabelFont).ToSize();
+                        var size = g.MeasureString(Layout.Base.Name, LabelFont).ToSize();
                         var point = new Point((LabelWind.Width - size.Width) / 2, size.Height / 2);
-                        g.DrawString(Layout.Name, LabelFont, RedBrush, point);
+                        g.DrawString(Layout.Base.Name, LabelFont, RedBrush, point);
                         g.DrawRectangle(ThickRedPen, new Rectangle(point, size));
                     }
 
                     int i = 0;
-                    foreach (var Zone in Layout.RenderedZones)
+                    foreach (var Zone in this.Layout.Zones)
                     {
                         i += 1;
                         var text = Zone.Name ?? i.ToString();
@@ -116,7 +116,7 @@ namespace ZoneRenderer.GDI
 
         private Window TransWind;
         private Window LabelWind;
-        public GDIZone(int width, int height, Layout Layout)
+        public GDIZone(int width, int height, RenderedLayout Layout)
         {
             var instanceHandle = System.Diagnostics.Process.GetCurrentProcess().Handle;
 
@@ -148,7 +148,7 @@ namespace ZoneRenderer.GDI
             UpdateZones(Layout);
         }
 
-        public override void UpdateZones(Layout Layout)
+        public override void UpdateZones(RenderedLayout Layout)
         {
             LabelsDirty = true;
             this.Layout = Layout;

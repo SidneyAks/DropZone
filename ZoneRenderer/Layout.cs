@@ -16,28 +16,27 @@ namespace ZoneRenderer
         [XmlArrayItem("DropZone")]
         public List<Zone> List { get; private set; } = new List<Zone>();
 
-        [XmlIgnore]
-        public List<RenderedZone> RenderedZones => rZones ?? (rZones = renderZones().ToList());
-        private List<RenderedZone> rZones;
+        public RenderedLayout Render(ScreenInfo.DisplayInfoCollection di = null) => new RenderedLayout(this, di);
+    }
 
-        public void DestroyCache()
+    public class RenderedLayout
+    {
+        public readonly Layout Base;
+        public readonly List<RenderedZone> Zones;
+
+
+        public RenderedLayout(Layout layoutBase, ScreenInfo.DisplayInfoCollection displayinfo = null)
         {
-            rZones = null;
-        }
+            Base = layoutBase;
 
-        private IEnumerable<RenderedZone> renderZones()
-        {
-            var displayinfo = ScreenInfo.GetDisplays();
-
-            //I realize I could write this without using a disgusting amalgamation of ternary
-            //and linq, but honestly, I kind of think it's beautiful in it's own horrible way.
-            var foo =  List.SelectMany(zone =>  
+            displayinfo = displayinfo ?? ScreenInfo.GetDisplays();
+            Zones = Base.List.SelectMany(zone =>
                 zone.Layout == LayoutKind.Duplicated ? displayinfo.Select(y => zone.Render(
                         x: y.WorkArea.Left,
                         y: y.WorkArea.Top,
                         LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,
                         LayoutHeight: y.WorkArea.Bottom - y.WorkArea.Top
-                    )):
+                    )) :
                 zone.Layout == LayoutKind.Spanning ? new RenderedZone[] {zone.Render(
                         x: 0,
                         y: 0,
@@ -54,16 +53,12 @@ namespace ZoneRenderer
                         LayoutHeight: y.WorkArea.Bottom - y.WorkArea.Top
                     )) :
                 throw new Exception("Unknown layout kind (how did you even do that with an enum?")
-            );
-
-            Console.WriteLine($"Getting {foo.Count()} zones from {Name}");
-
-            return foo;
+            ).ToList();
         }
 
         public RenderedZone GetActiveZoneFromPoint(int x, int y)
         {
-            return RenderedZones.FirstOrDefault(rect =>
+            return Zones.FirstOrDefault(rect =>
                 rect.Trigger.Left < x && x < rect.Trigger.Right &&
                 rect.Trigger.Top < y && y < rect.Trigger.Bottom);
         }
