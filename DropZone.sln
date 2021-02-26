@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_GlobalLowLevelHooks
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneRenderer__Base", "ZoneRenderer\ZoneRenderer__Base.csproj", "{E296635F-6B93-4A88-A2FB-FBC57191E2D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneRenderer_WPF", "ZoneRenderer_WPF\ZoneRenderer_WPF.csproj", "{CA00144C-265E-43D7-8F1B-8034E4E98F32}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneRenderer_Console", "ZoneRenderer_Console\ZoneRenderer_Console.csproj", "{52799C6C-BAE1-4FBB-A9BD-9CE77F94DE8A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneRenderer_GDI", "ZoneRenderer_GDI\ZoneRenderer_GDI.csproj", "{4C6F1E14-C8A8-4C04-9F16-1DEB169C82F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_MessagePump", "PInvoke_MessagePump\PInvoke_MessagePump.csproj", "{B5692908-D08F-46A7-9C0B-A962B15E6CE6}"
@@ -39,14 +35,6 @@ Global
 		{E296635F-6B93-4A88-A2FB-FBC57191E2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E296635F-6B93-4A88-A2FB-FBC57191E2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E296635F-6B93-4A88-A2FB-FBC57191E2D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA00144C-265E-43D7-8F1B-8034E4E98F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA00144C-265E-43D7-8F1B-8034E4E98F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA00144C-265E-43D7-8F1B-8034E4E98F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA00144C-265E-43D7-8F1B-8034E4E98F32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52799C6C-BAE1-4FBB-A9BD-9CE77F94DE8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52799C6C-BAE1-4FBB-A9BD-9CE77F94DE8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52799C6C-BAE1-4FBB-A9BD-9CE77F94DE8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52799C6C-BAE1-4FBB-A9BD-9CE77F94DE8A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C6F1E14-C8A8-4C04-9F16-1DEB169C82F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C6F1E14-C8A8-4C04-9F16-1DEB169C82F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C6F1E14-C8A8-4C04-9F16-1DEB169C82F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
