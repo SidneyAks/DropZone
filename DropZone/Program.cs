@@ -17,7 +17,7 @@ namespace DropZone
 
         public static LayoutCollection LayoutCollection;
         [STAThread]
-        static int Main(string[] args)
+        public static int StartCore()
         {
             if (PriorProcess != null)
             {

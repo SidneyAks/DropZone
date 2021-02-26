@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropZone", "DropZone\DropZone.csproj", "{91F4B5A2-DC35-49F7-A408-47105C69064D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_GlobalLowLevelHooks", "PInvoke_GlobalLowLevelHooks\GlobalLowLevelHooks\PInvoke_GlobalLowLevelHooks.csproj", "{77EB5498-54DD-4DCA-AFF6-F9B2C6F97FE3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneRenderer__Base", "ZoneRenderer\ZoneRenderer__Base.csproj", "{E296635F-6B93-4A88-A2FB-FBC57191E2D8}"
@@ -17,16 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_SystemTray", "PInvo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_GDIWindow", "PInvoke_GDIWindow\PInvoke_GDIWindow.csproj", "{AD96BA5C-004E-4BD7-B6DC-FBFE1B3C6972}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropZone_NoUI", "DropZone_NoUI\DropZone_NoUI.csproj", "{91F4B5A2-DC35-49F7-A408-47105C69064D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropzone", "Dropzone\Dropzone.csproj", "{25D11F6F-6127-4FFB-8751-74D831244800}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77EB5498-54DD-4DCA-AFF6-F9B2C6F97FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77EB5498-54DD-4DCA-AFF6-F9B2C6F97FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EB5498-54DD-4DCA-AFF6-F9B2C6F97FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +49,14 @@ Global
 		{AD96BA5C-004E-4BD7-B6DC-FBFE1B3C6972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD96BA5C-004E-4BD7-B6DC-FBFE1B3C6972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD96BA5C-004E-4BD7-B6DC-FBFE1B3C6972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F4B5A2-DC35-49F7-A408-47105C69064D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25D11F6F-6127-4FFB-8751-74D831244800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25D11F6F-6127-4FFB-8751-74D831244800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25D11F6F-6127-4FFB-8751-74D831244800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25D11F6F-6127-4FFB-8751-74D831244800}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
