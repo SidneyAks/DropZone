@@ -16,7 +16,6 @@ namespace ZoneRenderer.GDI
 
     public class GDIZone : IZoneRenderer
     {
-        const uint TransparencyKey = 0x000000;
         private static Pen ThickRedPen = new Pen(LabelColor);
         private static Pen ThinRedPen = new Pen(LabelColor, .5f);
         private static Brush RedBrush = new SolidBrush(LabelColor);
@@ -24,13 +23,13 @@ namespace ZoneRenderer.GDI
         private static Brush InactiveBrush = new SolidBrush(BackgroundColor);
         private static Brush Black = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-        private RenderedLayout Layout { get; set; }
-
-        private RenderedZone ActiveZone { get; set; }
+        private RenderedLayout Layout;
+        private RenderedZone ActiveZone;
 
         private bool visible = false;
-
         private bool TransparencyDirty = true;
+        private bool LabelsDirty = true;
+
         private GDIWindow.Win32Delegates.WndProc TransparencyPaintFunc => _transparencyPaintFunc ?? (_transparencyPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
         {
             if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
@@ -51,7 +50,6 @@ namespace ZoneRenderer.GDI
         }));
         private GDIWindow.Win32Delegates.WndProc _transparencyPaintFunc;
 
-        private bool LabelsDirty = true;
         private GDIWindow.Win32Delegates.WndProc LabelPaintFunc => _labelPaintFunc ?? (_labelPaintFunc = (GDIWindow.Win32Delegates.WndProc)((hWnd, message, wParam, lParam) =>
         {
 
@@ -129,7 +127,7 @@ namespace ZoneRenderer.GDI
         private Window TransWind;
         private Window LabelWind;
 
-        public GDIZone(int width, int height, RenderedLayout Layout)
+        public GDIZone(RenderedLayout Layout)
         {
             var instanceHandle = System.Diagnostics.Process.GetCurrentProcess().Handle;
 
