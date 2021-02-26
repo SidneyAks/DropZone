@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Dropzone
+namespace DropZone
+
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -18,9 +19,9 @@ namespace Dropzone
         {
             int i = 0;
             var args = Environment.GetCommandLineArgs().Skip(1);
-            if (!args.Any())
+            if (args.Any())
             {
-                DropZone.Program.StartCore();
+                Program.StartCore();
             }
             else
             {

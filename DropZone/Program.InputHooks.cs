@@ -10,15 +10,15 @@ using static GlobalLowLevelHooks.MouseHook;
 
 namespace DropZone
 {
+    public enum MouseButtonTriggers
+    {
+        LeftButton,
+        MiddleButton,
+        RightButton,
+    }
+
     public partial class Program
     {
-        public enum MouseButtonTriggers
-        {
-            LeftButton,
-            MiddleButton,
-            RightButton,
-        }
-
         private static KeyboardHook khook = new KeyboardHook();
         private static MouseHook mhook = new MouseHook();
 

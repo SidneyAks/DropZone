@@ -32,7 +32,7 @@ namespace DropZone
             LayoutCollection = DropZone.Settings.Zones;
             renderer = new ZoneRenderer.GDI.GDIZone(LayoutCollection.ActiveLayout);
 
-            var t = new SystemTray.TrayIcon(Process.GetCurrentProcess().Handle, "Exit Drop Zone", GetDropzoneIcon().GetHicon());
+            var t = new SystemTray.TrayIcon(Process.GetCurrentProcess().Handle, "Exit Drop Zone", GetDropZoneIcon().GetHicon());
             t.Events[SystemTray.TrayIcon.MouseMessages.WM_LBUTTONDOWN] += (s, e) => {
                 MessagePump.Pump.Quit();
             };
@@ -41,7 +41,7 @@ namespace DropZone
                 MessagePump.Pump.Quit();
             };
 
-            t.PostInfo("DropZone Running", "Dropzone will run in the background, click the system try icon to close the process");
+            t.PostInfo("DropZone Running", "DropZone will run in the background, click the system try icon to close the process");
 #if DEBUG
             ShowConsole();
 #else
@@ -53,7 +53,7 @@ namespace DropZone
             });
         }
 
-        private static Bitmap GetDropzoneIcon()
+        private static Bitmap GetDropZoneIcon()
         {
             var bmp = new Bitmap(32, 32);
             var g = Graphics.FromImage(bmp);

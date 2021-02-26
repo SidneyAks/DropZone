@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvoke_GDIWindow", "PInvok
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropZone_NoUI", "DropZone_NoUI\DropZone_NoUI.csproj", "{91F4B5A2-DC35-49F7-A408-47105C69064D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropzone", "Dropzone\Dropzone.csproj", "{25D11F6F-6127-4FFB-8751-74D831244800}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropZone", "DropZone\DropZone.csproj", "{25D11F6F-6127-4FFB-8751-74D831244800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

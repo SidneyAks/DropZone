@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{25D11F6F-6127-4FFB-8751-74D831244800}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Dropzone</RootNamespace>
-    <AssemblyName>Dropzone</AssemblyName>
+    <RootNamespace>DropZone</RootNamespace>
+    <AssemblyName>DropZone</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
