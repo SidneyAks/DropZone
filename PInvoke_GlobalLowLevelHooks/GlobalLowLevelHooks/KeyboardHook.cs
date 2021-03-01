@@ -231,6 +231,11 @@ namespace GlobalLowLevelHooks
         #region Events
         public event KeyboardHookCallback KeyDown;
         public event KeyboardHookCallback KeyUp;
+
+        public void ResetEvents() {
+            KeyDown = null;
+            KeyUp = null;
+        }
         #endregion
 
         /// <summary>

@@ -61,10 +61,6 @@ namespace DropZone
         static DropZone()
         {
             defaultInstance = ((DropZone)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DropZone())));
-            defaultInstance.PropertyChanged += (s, e) =>
-            {
-                defaultInstance.Save();
-            };
         }
 
         public static DropZone Settings => defaultInstance;

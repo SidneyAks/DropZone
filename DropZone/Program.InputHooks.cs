@@ -80,6 +80,22 @@ namespace DropZone
                 throw new Exception("Trigger and Swap buttons cannot be same mouse button");
             }
 
+            SetMKEvents();
+
+            mhook.Install();
+            khook.Install();
+        }
+
+        private static void RefreshInputHooks ()
+        {
+            SetMKEvents();
+        }
+
+        private static void SetMKEvents()
+        {
+            mhook.ResetEvents();
+            khook.ResetEvents();
+
             switch (DropZone.Settings.TriggerButton)
             {
                 case MouseButtonTriggers.LeftButton:
@@ -171,10 +187,6 @@ namespace DropZone
                     }
                 }).Start();
             };
-
-
-            mhook.Install();
-            khook.Install();
         }
 
         private static void MouseButtonDown(MSLLHOOKSTRUCT m)

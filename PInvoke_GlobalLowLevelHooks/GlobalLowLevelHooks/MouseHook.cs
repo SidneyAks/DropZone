@@ -35,6 +35,11 @@ namespace GlobalLowLevelHooks
         public event MouseHookCallback MiddleButtonUp { add => EventLookup[MouseMessages.WM_MBUTTONUP] += value; remove => EventLookup[MouseMessages.WM_MBUTTONUP] -= value; }
 
         private Dictionary<MouseMessages, MouseHookCallback> EventLookup = Enum.GetValues(typeof(MouseMessages)).OfType<MouseMessages>().ToDictionary(k => k, v => (MouseHookCallback)null);
+        
+        public void ResetEvents()
+        {
+            EventLookup = Enum.GetValues(typeof(MouseMessages)).OfType<MouseMessages>().ToDictionary(k => k, v => (MouseHookCallback)null);
+        }
         #endregion
 
         /// <summary>

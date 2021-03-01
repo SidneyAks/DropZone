@@ -24,5 +24,15 @@ namespace DropZone
         {
             InitializeComponent();
         }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
+
+        private void KillDropzone_Click(object sender, RoutedEventArgs e)
+        {
+            SingleInstance.Dispatcher.SendArgToPipeLine(App.DaemonPipeName, "Close");
+        }
     }
 }

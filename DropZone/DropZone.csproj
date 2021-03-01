@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -128,6 +129,10 @@
     <ProjectReference Include="..\PInvoke_SystemTray\PInvoke_SystemTray.csproj">
       <Project>{285e0f73-9eaf-4a15-b955-33ec32b87d9d}</Project>
       <Name>PInvoke_SystemTray</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SingleInstanceDispatcher\SingleInstanceDispatcher.csproj">
+      <Project>{0a83876d-08ab-4b46-bbca-fd4ce33f3e3e}</Project>
+      <Name>SingleInstanceDispatcher</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZoneRenderer\ZoneRenderer__Base.csproj">
       <Project>{e296635f-6b93-4a88-a2fb-fbc57191e2d8}</Project>
