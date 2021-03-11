@@ -21,7 +21,7 @@ namespace DropZone
         public static int StartCore()
         {
             IZoneRenderer.ActiveZoneColor = Color.FromArgb(Int32.Parse(DropZone.Settings.ActiveColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
-            IZoneRenderer.BackgroundOpacity = DropZone.Settings.BackgroundOpacity;
+//            IZoneRenderer.BackgroundOpacity = DropZone.Settings.BackgroundOpacity;
             IZoneRenderer.LabelColor = Color.FromArgb(Int32.Parse(DropZone.Settings.LabelColor.TrimStart('#'), System.Globalization.NumberStyles.HexNumber));
 
             var dic = ScreenInfo.GetDisplays();

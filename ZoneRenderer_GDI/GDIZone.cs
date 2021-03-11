@@ -21,65 +21,57 @@ namespace ZoneRenderer.GDI
         private static Brush RedBrush = new SolidBrush(LabelColor);
         private static Brush ActiveBrush = new SolidBrush(ActiveZoneColor);
         private static Brush InactiveBrush = new SolidBrush(BackgroundColor);
+        private static Brush noTransparentInactiveBrush = new SolidBrush(Color.FromArgb(255, BackgroundColor.R, BackgroundColor.G, BackgroundColor.B));
         private static Brush Black = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-        public static void PaintTransparency(IntPtr hWnd, RenderedZone ActiveZone = null)
+        public static void PaintTransparency(Graphics g, RECT rect, RenderedZone ActiveZone = null, bool clear = true, bool rendererSupportsTransparency = false)
         {
-            GDIWindow.Win32Structs.PAINTSTRUCT ps;
-            GDIWindow.Win32Structs.RECT rect;
-
-            GDIWindow.WinApi.WinAPI.BeginPaint(hWnd, out ps);
-            GDIWindow.WinApi.WinAPI.GetClientRect(hWnd, out rect);
-
-            using (var g = System.Drawing.Graphics.FromHwnd(hWnd))
+            if (clear)
             {
-                g.FillRectangle(InactiveBrush,
-                    rect.Left, rect.Top, rect.Width, rect.Height);
-
-                if (ActiveZone != null)
+                if (rendererSupportsTransparency)
                 {
-                    g.FillRectangle(ActiveBrush,
-                        ActiveZone.Target.Left, ActiveZone.Target.Top, ActiveZone.TargetWidth, ActiveZone.TargetHeight);
+                    g.FillRectangle(InactiveBrush, rect.Left, rect.Top, rect.Width, rect.Height);
                 }
+                else
+                {
+                    g.FillRectangle(noTransparentInactiveBrush, rect.Left, rect.Top, rect.Width, rect.Height);
+                }
+                //                g.FillRectangle(Black, rect.Left, rect.Top, rect.Width, rect.Height);
+
             }
 
-            GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
+            if (ActiveZone != null)
+            {
+                g.FillRectangle(ActiveBrush,
+                    ActiveZone.Target.Left, ActiveZone.Target.Top, ActiveZone.TargetWidth, ActiveZone.TargetHeight);
+            }
         }
-        public static void PaintLabel(IntPtr hWnd, RenderedLayout Layout)
+        public static void PaintLabel(Graphics g, RECT rect, RenderedLayout Layout, bool clear = true, bool title = true)
         {
-            GDIWindow.Win32Structs.PAINTSTRUCT ps;
-            GDIWindow.Win32Structs.RECT rect;
-
-            GDIWindow.WinApi.WinAPI.BeginPaint(hWnd, out ps);
-            GDIWindow.WinApi.WinAPI.GetClientRect(hWnd, out rect);
-
-            using (var g = System.Drawing.Graphics.FromHwnd(hWnd))
+            if (clear)
             {
-                g.FillRectangle(Black,
-                rect.Left, rect.Top, rect.Width, rect.Height);
-
-                if (Layout.Base.Name != null)
-                {
-                    var size = g.MeasureString(Layout.Base.Name, LabelFont).ToSize();
-                    var point = new Point((rect.Width - size.Width) / 2, size.Height / 2);
-                    g.DrawString(Layout.Base.Name, LabelFont, RedBrush, point);
-                    g.DrawRectangle(ThickRedPen, new Rectangle(point, size));
-                }
-
-                int i = 0;
-                foreach (var Zone in Layout.Zones)
-                {
-                    i += 1;
-                    var text = Zone.Name ?? i.ToString();
-                    var size = g.MeasureString(text, LabelFont).ToSize();
-                    var point = new Point(Zone.Trigger.Left + ((Zone.TriggerWidth - size.Width) / 2), Zone.Trigger.Top + ((Zone.TriggerHeight - size.Height) / 2));
-
-                    g.DrawString(text, LabelFont, RedBrush, point);
-                    g.DrawRectangle(ThinRedPen, new Rectangle(Zone.Trigger.Left, Zone.Trigger.Top, Zone.TriggerWidth, Zone.TriggerHeight));
-                }
+                g.FillRectangle(Black, rect.Left, rect.Top, rect.Width, rect.Height);
             }
 
-            GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
+            if (Layout.Base.Name != null && title)
+            {
+                var size = g.MeasureString(Layout.Base.Name, LabelFont).ToSize();
+                var point = new Point((rect.Width - size.Width) / 2, size.Height / 2);
+                g.DrawString(Layout.Base.Name, LabelFont, RedBrush, point);
+                g.DrawRectangle(ThickRedPen, new Rectangle(point, size));
+            }
+
+            int i = 0;
+            foreach (var Zone in Layout.Zones)
+            {
+                i += 1;
+                var text = Zone.Name ?? i.ToString();
+                var size = g.MeasureString(text, LabelFont).ToSize();
+                var point = new Point(Zone.Trigger.Left + ((Zone.TriggerWidth - size.Width) / 2), Zone.Trigger.Top + ((Zone.TriggerHeight - size.Height) / 2));
+
+                g.DrawString(text, LabelFont, RedBrush, point);
+                g.DrawRectangle(ThinRedPen, new Rectangle(Zone.Trigger.Left, Zone.Trigger.Top, Zone.TriggerWidth, Zone.TriggerHeight));
+            }
         }
 
         public GDIZone(RenderedLayout Layout)
@@ -94,7 +86,7 @@ namespace ZoneRenderer.GDI
                 Height = ScreenInfo.GetDisplays().MaxHeight + GDIWindow.WinApi.WinAPI.GetSystemMetrics(GDIWindow.Win32Enums.SystemMetric.SM_CYCAPTION) + 15,
                 ZPos = GDIWindow.Win32Enums.HWNDPosStates.TopMost,
                 Style = GDIWindow.Win32Enums.WindowStylesEx.WS_EX_VisualStudioEmulation | GDIWindow.Win32Enums.WindowStylesEx.WS_EX_TOPMOST,
-                Transparency = BackgroundOpacity,
+                Transparency = BackgroundColor.A,
             };
 
             LabelWind = new Window("ZoneMove1", LabelPaintFunc, TransWind.Handle, hidden: true, delayShow: true)
@@ -172,7 +164,14 @@ namespace ZoneRenderer.GDI
                 }
                 else
                 {
-                    PaintTransparency(hWnd, ActiveZone);
+                    GDIWindow.WinApi.WinAPI.BeginPaint(hWnd, out PAINTSTRUCT ps);
+                    GDIWindow.WinApi.WinAPI.GetClientRect(hWnd, out RECT rect);
+                    using (var g = System.Drawing.Graphics.FromHwnd(hWnd))
+                    {
+                        PaintTransparency(g, rect, ActiveZone);
+                    }
+                    GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
+
                     TransparencyDirty = false;
                     return IntPtr.Zero;
                 }
@@ -188,7 +187,14 @@ namespace ZoneRenderer.GDI
             if ((GDIWindow.Win32Enums.WM)message == GDIWindow.Win32Enums.WM.PAINT)
             {
                 if (!LabelsDirty || !visible) return IntPtr.Zero;
-                PaintLabel(hWnd, Layout);
+                GDIWindow.WinApi.WinAPI.BeginPaint(hWnd, out PAINTSTRUCT ps);
+                GDIWindow.WinApi.WinAPI.GetClientRect(hWnd, out RECT rect);
+                using (var g = System.Drawing.Graphics.FromHwnd(hWnd))
+                {
+                    PaintLabel(g, rect, Layout);
+                }
+                GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
+
                 LabelsDirty = false;
                 return IntPtr.Zero;
             }

@@ -43,6 +43,17 @@ namespace ZoneRenderer
             {
                 this.Size = 40 + 2 * CCHDEVICENAME;
             }
+
+            public MonitorInfo Scale(float scale, int offsetX, int offsetY)
+            {
+                return new MonitorInfo()
+                {
+                    Size = this.Size,
+                    Monitor = this.Monitor.Scale(scale, offsetX, offsetY),
+                    WorkArea = this.WorkArea.Scale(scale, offsetX, offsetY),
+                    Flags = this.Flags,
+                };
+            }
         }
 
         [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
@@ -52,6 +63,17 @@ namespace ZoneRenderer
             public int Top;
             public int Right;
             public int Bottom;
+
+            public Rect Scale(float scale, int offsetX, int offsetY)
+            {
+                return new Rect()
+                {
+                    Left = offsetX + (int)(Left * scale),
+                    Top = offsetY + (int)(Top * scale),
+                    Right = offsetX + (int)(Right * scale),
+                    Bottom = offsetY + (int)(Bottom * scale),
+                };
+            }
         }
 
         /// <summary>
@@ -81,7 +103,7 @@ namespace ZoneRenderer
         /// Returns the number of Displays using the Win32 functions
         /// </summary>
         /// <returns>collection of Display Info</returns>
-        public static DisplayInfoCollection GetDisplays()
+        public static DisplayInfoCollection GetDisplays(float? scale = null, int? offsetX = null, int? offsetY = null)
         {
             DisplayInfoCollection col = new DisplayInfoCollection();
 
@@ -91,6 +113,7 @@ namespace ZoneRenderer
                     MonitorInfo mi = new MonitorInfo();
                     mi.Size = (uint)Marshal.SizeOf(mi);
                     bool success = GetMonitorInfo(hMonitor, ref mi);
+                    mi = mi.Scale(scale ?? 1, offsetX ?? 0, offsetY ?? 0);
                     if (success)
                     {
                         DisplayInfo di = new DisplayInfo();
