@@ -38,10 +38,10 @@ namespace ZoneRenderer
                         LayoutHeight: y.WorkArea.Bottom - y.WorkArea.Top
                     )) :
                 zone.Layout == LayoutKind.Spanning ? new RenderedZone[] {zone.Render(
-                        x: 0,
-                        y: 0,
-                        LayoutWidth: displayinfo.MaxWidth,
-                        LayoutHeight: displayinfo.MaxHeight
+                        x: displayinfo.Min(y => y.WorkArea.Left),
+                        y: displayinfo.Min(y => y.WorkArea.Top),
+                        LayoutWidth: displayinfo.MaxWidth - displayinfo.Min(y => y.WorkArea.Left),
+                        LayoutHeight: displayinfo.MaxHeight - displayinfo.Min(y => y.WorkArea.Top)
                     )} :
                 zone.Layout == LayoutKind.SelectedScreens ? zone.ScreenIndexes
                                                                     .Where(x => x < displayinfo.Count())

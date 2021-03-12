@@ -36,8 +36,6 @@ namespace ZoneRenderer.GDI
                 {
                     g.FillRectangle(noTransparentInactiveBrush, rect.Left, rect.Top, rect.Width, rect.Height);
                 }
-                //                g.FillRectangle(Black, rect.Left, rect.Top, rect.Width, rect.Height);
-
             }
 
             if (ActiveZone != null)
