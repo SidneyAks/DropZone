@@ -32,9 +32,9 @@ namespace DropZone
             active = 16
 
         }
-        public static state s = default;
+        public static state HotkeyState = default;
 
-        public static state Trigger
+        public static state TriggerHotkeys
         {
             get
             {
@@ -53,7 +53,6 @@ namespace DropZone
 
         private static WindowRef candidateWindow;
 
-#if DEBUG
         private static void printState(MSLLHOOKSTRUCT m)
         {
             new System.Threading.Tasks.Task(() =>
@@ -63,7 +62,7 @@ namespace DropZone
                     var data = GetWindowDetailsFromPoint(m.pt);
 
                     Console.WriteLine($"({m.pt.x},{m.pt.y})" +
-                        $"\t{((s == 0) ? "" : s.ToString()),12}" +
+                        $"\t{((HotkeyState == 0) ? "" : HotkeyState.ToString()),12}" +
                         $"\t{data.Title, 40}");
                 }
                 catch (Exception ex)
@@ -72,7 +71,7 @@ namespace DropZone
                 }
             }).Start();
         }
-#endif
+
         private static void RegisterInputHooks()
         {
             if (DropZone.Settings.TriggerButton == DropZone.Settings.SwapButton)
@@ -88,6 +87,7 @@ namespace DropZone
 
         private static void RefreshInputHooks ()
         {
+            trigger = null;
             SetMKEvents();
         }
 
@@ -134,21 +134,21 @@ namespace DropZone
                         case KeyboardHook.VKeys.CONTROL:
                         case KeyboardHook.VKeys.LCONTROL:
                         case KeyboardHook.VKeys.RCONTROL:
-                            s.Add(state.ctrl);
+                            HotkeyState.Add(state.ctrl);
                             break;
                         case KeyboardHook.VKeys.MENU:
                         case KeyboardHook.VKeys.LMENU:
                         case KeyboardHook.VKeys.RMENU:
-                            s.Add(state.alt);
+                            HotkeyState.Add(state.alt);
                             break;
                         case KeyboardHook.VKeys.LWIN:
                         case KeyboardHook.VKeys.RWIN:
-                            s.Add(state.win);
+                            HotkeyState.Add(state.win);
                             break;
                         case KeyboardHook.VKeys.SHIFT:
                         case KeyboardHook.VKeys.LSHIFT:
                         case KeyboardHook.VKeys.RSHIFT:
-                            s.Add(state.shift);
+                            HotkeyState.Add(state.shift);
                             break;
 
                         default:
@@ -166,21 +166,21 @@ namespace DropZone
                         case KeyboardHook.VKeys.CONTROL:
                         case KeyboardHook.VKeys.LCONTROL:
                         case KeyboardHook.VKeys.RCONTROL:
-                            s.Remove(state.ctrl);
+                            HotkeyState.Remove(state.ctrl);
                             break;
                         case KeyboardHook.VKeys.MENU:
                         case KeyboardHook.VKeys.LMENU:
                         case KeyboardHook.VKeys.RMENU:
-                            s.Remove(state.alt);
+                            HotkeyState.Remove(state.alt);
                             break;
                         case KeyboardHook.VKeys.LWIN:
                         case KeyboardHook.VKeys.RWIN:
-                            s.Remove(state.win);
+                            HotkeyState.Remove(state.win);
                             break;
                         case KeyboardHook.VKeys.SHIFT:
                         case KeyboardHook.VKeys.LSHIFT:
                         case KeyboardHook.VKeys.RSHIFT:
-                            s.Remove(state.shift);
+                            HotkeyState.Remove(state.shift);
                             break;
                         default:
                             break;
@@ -191,26 +191,22 @@ namespace DropZone
 
         private static void MouseButtonDown(MSLLHOOKSTRUCT m)
         {
-            if (s.HasFlag(Trigger))
+            if (HotkeyState.HasFlag(TriggerHotkeys) || TriggerHotkeys == default(state))
             {
                 candidateWindow = GetWindowDetailsFromPoint(m.pt);
                 if (candidateWindow.IsPartOfWindowsUI)
                 {
-#if DEBUG
                     Console.WriteLine("Candidate Window is shell window -- NO!");
-#endif
                     candidateWindow = null;
                     return;
                 } if (DropZone.Settings.OnlyTriggerOnTitleBarClick && m.pt.y > candidateWindow.rect.Top + candidateWindow.TitleBarHeight)
                 {
-#if DEBUG
                     Console.WriteLine("Click detected, but not in title bar constraints");
-#endif
                     candidateWindow = null;
                     return;
                 }
 
-                s.Add(state.active);
+                HotkeyState.Add(state.active);
                 new System.Threading.Tasks.Task(() =>
                 {
                     mhook.MouseMove += Mhook_MouseMove;
@@ -227,7 +223,7 @@ namespace DropZone
 
         private static void MouseButtonUp(MSLLHOOKSTRUCT m)
         {
-            s.Remove(state.active);
+            HotkeyState.Remove(state.active);
             new System.Threading.Tasks.Task(() =>
             {
                 mhook.MouseMove -= Mhook_MouseMove;
@@ -243,7 +239,7 @@ namespace DropZone
 
         private static void SwapButtonDown(MSLLHOOKSTRUCT m)
         {
-            if (s.HasFlag(state.active))
+            if (HotkeyState.HasFlag(state.active))
             {
                 new System.Threading.Tasks.Task(() =>
                 {

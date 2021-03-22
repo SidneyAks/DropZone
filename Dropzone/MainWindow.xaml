@@ -18,24 +18,15 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-
-            <TabControl Name="Tabs" Grid.Row="0" Grid.ColumnSpan="4"
-                        SelectedItem="{Binding  ElementName=this, Path=ARC, Mode=TwoWay}" 
+            <TabControl Name="Tabs" Grid.Row="0" Grid.Column="1"
                         DisplayMemberPath="Name" 
                         SelectionChanged="TabControl_SelectionChanged">
                 <TabControl.ItemsSource>
@@ -49,31 +40,72 @@
                 </TabControl.ContentTemplate>
             </TabControl>
 
-
-            <WindowsFormsHost Grid.Row="1" Grid.ColumnSpan="4">
-                <wf:PictureBox Dock="Fill" SizeMode="Zoom" Resize="PictureBox_Resize" MouseMove="PictureBox_MouseMove" x:Name="PictureBox" Paint="PictureBox_Paint"/>
+            <WindowsFormsHost Grid.Row="1" Grid.Column="1">
+                <wf:PictureBox Dock="Fill" SizeMode="Zoom" MouseMove="PictureBox_MouseMove" x:Name="PictureBox" Paint="PictureBox_Paint"/>
             </WindowsFormsHost>
-            <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold">Trigger Hotkeys</Label>
-            <CheckBox Grid.Row="3" Grid.Column="1" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireCtrl, Mode=TwoWay}">Control</CheckBox>
-            <CheckBox Grid.Row="4" Grid.Column="1" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireAlt, Mode=TwoWay}">Alt</CheckBox>
-            <CheckBox Grid.Row="5" Grid.Column="1" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireShift, Mode=TwoWay}">Shift</CheckBox>
-            <CheckBox Grid.Row="6" Grid.Column="1" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireWinKey, Mode=TwoWay}">Win</CheckBox>
-            <CheckBox Grid.Row="7" Grid.Column="1"  Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=OnlyTriggerOnTitleBarClick, Mode=TwoWay}">Only Click Titlebar</CheckBox>
+            <Label Grid.Row="2"/>
+            <DataGrid Name="LayoutExplorer" Grid.Column="1" Grid.Row="3" 
+                      ItemsSource="{Binding Path=Backer.List}"
+                      SelectionChanged="LayoutExplorer_SelectionChanged"
+                      BeginningEdit="DataGrid_BeginningEdit"
+                      AutoGeneratingColumn="LayoutExplorer_AutoGeneratingColumn"/>
+            <Label Grid.Row="4"/>
 
 
-            <Label Grid.Row="2" Grid.Column="2" FontWeight="Bold">Trigger Button</Label>
-            <RadioButton GroupName="TriggerButton"  Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-            <RadioButton GroupName="TriggerButton"  Grid.Row="4" Grid.Column="2" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-            <RadioButton GroupName="TriggerButton"  Grid.Row="5" Grid.Column="2" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
-            <Button Name="Close" Grid.Row="8" Grid.Column="2" Content="Close Wizard" Width="100" Click="Close_Click"/>
 
-            <Label Grid.Row="2" Grid.Column="3" FontWeight="Bold">Layout Cycle Button</Label>
-            <RadioButton GroupName="SwapButton"  Grid.Row="3" Grid.Column="3" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-            <RadioButton GroupName="SwapButton"  Grid.Row="4" Grid.Column="3" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-            <RadioButton GroupName="SwapButton"  Grid.Row="5" Grid.Column="3" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
-            <Button Name="KillDropzone" Grid.Row="8" Grid.Column="3" Content="Stop Dropzone" Width="100"/>
+            <Grid Grid.RowSpan="100" Grid.Column="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
 
-            <Label Grid.Row="9"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold">Trigger Hotkeys</Label>
+                <CheckBox Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireCtrl, Mode=TwoWay}">Control</CheckBox>
+                <CheckBox Grid.Row="2" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireAlt, Mode=TwoWay}">Alt</CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireShift, Mode=TwoWay}">Shift</CheckBox>
+                <CheckBox Grid.Row="4" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireWinKey, Mode=TwoWay}">Win</CheckBox>
+                <CheckBox Grid.Row="5" Grid.Column="0"  Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=OnlyTriggerOnTitleBarClick, Mode=TwoWay}">Only Click Titlebar</CheckBox>
+
+
+                <Label Grid.Row="6" Grid.Column="0" FontWeight="Bold">Trigger Button</Label>
+                <RadioButton GroupName="TriggerButton"  Grid.Row="7" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
+                <RadioButton GroupName="TriggerButton"  Grid.Row="8" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
+                <RadioButton GroupName="TriggerButton"  Grid.Row="9" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+
+                <Label Grid.Row="10" Grid.Column="0" FontWeight="Bold">Layout Cycle Button</Label>
+                <RadioButton GroupName="SwapButton"  Grid.Row="11" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
+                <RadioButton GroupName="SwapButton"  Grid.Row="12" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
+                <RadioButton GroupName="SwapButton"  Grid.Row="13" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+
+                <Label Grid.Row="14"/>
+
+                <Button Name="KillDropzone" Grid.Row="15" Grid.Column="0" Content="Stop Dropzone" Width="100"/>
+                <Label Grid.Row="16"/>
+                <Button Name="Close" Grid.Row="17" Grid.Column="0" Content="Close Wizard" Width="100" Click="Close_Click"/>
+                <Label Grid.Row="18"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

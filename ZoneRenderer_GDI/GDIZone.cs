@@ -24,7 +24,7 @@ namespace ZoneRenderer.GDI
         private static Brush noTransparentInactiveBrush = new SolidBrush(Color.FromArgb(255, BackgroundColor.R, BackgroundColor.G, BackgroundColor.B));
         private static Brush Black = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-        public static void PaintTransparency(Graphics g, RECT rect, RenderedZone ActiveZone = null, bool clear = true, bool rendererSupportsTransparency = false)
+        public static void PaintTransparency(Graphics g, RECT rect, List<RenderedZone> ActiveZones = null, bool clear = true, bool rendererSupportsTransparency = false)
         {
             if (clear)
             {
@@ -38,10 +38,15 @@ namespace ZoneRenderer.GDI
                 }
             }
 
-            if (ActiveZone != null)
+            if (ActiveZones != null)
             {
-                g.FillRectangle(ActiveBrush,
-                    ActiveZone.Target.Left, ActiveZone.Target.Top, ActiveZone.TargetWidth, ActiveZone.TargetHeight);
+                foreach (var az in ActiveZones ?? new List<RenderedZone>())
+                {
+                    if (az != null)
+                    {
+                        g.FillRectangle(ActiveBrush, az.Target.Left, az.Target.Top, az.TargetWidth, az.TargetHeight);
+                    }
+                }
             }
         }
         public static void PaintLabel(Graphics g, RECT rect, RenderedLayout Layout, bool clear = true, bool title = true)
@@ -166,7 +171,7 @@ namespace ZoneRenderer.GDI
                     GDIWindow.WinApi.WinAPI.GetClientRect(hWnd, out RECT rect);
                     using (var g = System.Drawing.Graphics.FromHwnd(hWnd))
                     {
-                        PaintTransparency(g, rect, ActiveZone);
+                        PaintTransparency(g, rect, new List<RenderedZone>() { ActiveZone });
                     }
                     GDIWindow.WinApi.WinAPI.EndPaint(hWnd, ref ps);
 

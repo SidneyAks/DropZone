@@ -23,12 +23,12 @@ namespace DropZone
         {
             int i = 0;
             var args = Environment.GetCommandLineArgs().Skip(1);
-/*            if (!args.Any(x => x == "management"))
+            if (!args.Any(x => x == "management"))
             {
                 SingleInstance.Dispatcher.Intialize(DaemonPipeName, "Dropzone", args.ToArray());
                 Program.StartCore();
             }
-            else*/
+            else
             {
                 SingleInstance.Dispatcher.Intialize(ConfigrationPipeName, "Dropzone", args.ToArray());
                 DropZone.Settings.PropertyChanged += (s, e) =>

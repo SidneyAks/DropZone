@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -17,6 +18,7 @@ namespace ZoneRenderer
         [XmlAttribute]
         public string Screens { get; set; }
 
+        [Browsable(false)]
         public int[] ScreenIndexes {
             get => Screens?.Split(',').Select(x => Int32.Parse(x)).ToArray() ?? new List<int>().ToArray();
             set => Screens = string.Join(",", value);

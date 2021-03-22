@@ -10,6 +10,7 @@ namespace ZoneRenderer
             return new RenderedZone()
             {
                 Name = this.Name,
+                Zone = this,
                 Target = new Bounds<int>
                 {
                     Top = (int)(LayoutHeight * Target.Top.Decimal) + y,

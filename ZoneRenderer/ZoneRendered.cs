@@ -5,6 +5,7 @@ namespace ZoneRenderer
     [Serializable]
     public class RenderedZone : ZoneBase<int>
     {
+        public Zone Zone { get; set; }
         public new Bounds<int> Trigger { get => base.Trigger ?? base.Target; set => base.Trigger = value; }
 
         public int TargetWidth => targetWidth ?? (targetWidth = Target.Right - Target.Left).Value;
