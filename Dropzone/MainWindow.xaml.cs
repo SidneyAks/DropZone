@@ -42,8 +42,17 @@ namespace DropZone
                                        SystemInformation.VirtualScreen.Size,
                                        CopyPixelOperation.SourceCopy);
 
-            Backer = DropZone.Settings.Zones.First();
+            Backer = DropZone.Settings.Zones.ParentLayout;
             this.PropertyChanged += (s, e) => PictureBox.Refresh();
+        }
+
+        public List<Zone> DataGridZones
+        {
+            get
+            {
+                return (Backer == DropZone.Settings.Zones.ParentLayout) ? Backer.List : 
+                        DropZone.Settings.Zones.ParentLayout?.List.Union(Backer.List).ToList() ?? Backer.List;
+            }
         }
 
         public Layout Backer
@@ -53,6 +62,7 @@ namespace DropZone
             {
                 _backer = value;
                 OnPropertyChanged();
+                OnPropertyChanged("DataGridZones");
             }
         }
         public List<RenderedZone> ActiveZones
@@ -120,7 +130,7 @@ namespace DropZone
                     Left = (int)rect1.Left,
                 };
 
-                PictureBox.Tag = Backer.Render(ScreenInfo.GetDisplays(scale, (int)offset.X, (int)offset.Y));
+                PictureBox.Tag = Backer.Render(ScreenInfo.GetDisplays(scale, (int)offset.X, (int)offset.Y), DropZone.Settings.Zones.ParentLayout);
                 var layout = PictureBox.Tag as RenderedLayout;
 
                 if (layout != null)
@@ -148,7 +158,7 @@ namespace DropZone
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Backer = Tabs.SelectedItem as Layout;
+            Backer = Tabs.SelectedItem as Layout ?? DropZone.Settings.Zones.ParentLayout;
         }
 
         private void DataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -183,6 +193,26 @@ namespace DropZone
         {
             bool? browsable = (e.PropertyDescriptor as PropertyDescriptor).Attributes.Cast<Attribute>().OfType<BrowsableAttribute>().FirstOrDefault()?.Browsable;
             e.Cancel = !(browsable.HasValue ? browsable.Value : true);
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            DropZone.Settings.PropertyChanged -= App.PropertyChangedHandler;
+            DropZone.Settings.Reset();
+            DropZone.Settings.Save();
+            DropZone.Settings.PropertyChanged += App.PropertyChangedHandler;
+//            OnPropertyChanged("LeftTrigger");
+/*            OnPropertyChanged("MiddleTrigger");
+            OnPropertyChanged("RightTrigger");
+            OnPropertyChanged("LeftSwap");
+            OnPropertyChanged("MiddleSwap");
+            OnPropertyChanged("RightSwap");
+
+            OnPropertyChanged("RequireCtrl");
+            OnPropertyChanged("RequireAlt");
+            OnPropertyChanged("RequireShift");
+            OnPropertyChanged("RequireWinKey");
+            OnPropertyChanged("OnlyTriggerOnTitleBarClick");*/
         }
     }
 }

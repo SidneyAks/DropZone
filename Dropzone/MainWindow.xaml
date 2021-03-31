@@ -31,7 +31,8 @@
                         SelectionChanged="TabControl_SelectionChanged">
                 <TabControl.ItemsSource>
                     <CompositeCollection>
-                        <CollectionContainer Collection="{Binding Source={x:Static local:DropZone.Settings}, Path=Zones}"/>
+                        <TabItem Header="Global Zones" DataContext="{Binding Source={x:Static local:DropZone.Settings}, Path=Zones.ParentLayout}"/>
+                        <CollectionContainer Collection="{Binding Source={x:Static local:DropZone.Settings}, Path=Zones.List}"/>
                         <TabItem Header="+"/>
                     </CompositeCollection>
                 </TabControl.ItemsSource>
@@ -45,7 +46,7 @@
             </WindowsFormsHost>
             <Label Grid.Row="2"/>
             <DataGrid Name="LayoutExplorer" Grid.Column="1" Grid.Row="3" 
-                      ItemsSource="{Binding Path=Backer.List}"
+                      ItemsSource="{Binding Path=DataGridZones}"
                       SelectionChanged="LayoutExplorer_SelectionChanged"
                       BeginningEdit="DataGrid_BeginningEdit"
                       AutoGeneratingColumn="LayoutExplorer_AutoGeneratingColumn"/>
@@ -82,29 +83,31 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold">Trigger Hotkeys</Label>
-                <CheckBox Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireCtrl, Mode=TwoWay}">Control</CheckBox>
-                <CheckBox Grid.Row="2" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireAlt, Mode=TwoWay}">Alt</CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireShift, Mode=TwoWay}">Shift</CheckBox>
-                <CheckBox Grid.Row="4" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireWinKey, Mode=TwoWay}">Win</CheckBox>
-                <CheckBox Grid.Row="5" Grid.Column="0"  Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=OnlyTriggerOnTitleBarClick, Mode=TwoWay}">Only Click Titlebar</CheckBox>
+                <CheckBox Name="RequireCtrl" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireCtrl, Mode=TwoWay}">Control</CheckBox>
+                <CheckBox Name="RequireAlt" Grid.Row="2" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireAlt, Mode=TwoWay}">Alt</CheckBox>
+                <CheckBox Name="RequireShift" Grid.Row="3" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireShift, Mode=TwoWay}">Shift</CheckBox>
+                <CheckBox Name="RequireWinKey" Grid.Row="4" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireWinKey, Mode=TwoWay}">Win</CheckBox>
+                <CheckBox Name="OnlyTriggerOnTitleBarClick" Grid.Row="5" Grid.Column="0"  Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=OnlyTriggerOnTitleBarClick, Mode=TwoWay}">Only Click Titlebar</CheckBox>
 
 
                 <Label Grid.Row="6" Grid.Column="0" FontWeight="Bold">Trigger Button</Label>
-                <RadioButton GroupName="TriggerButton"  Grid.Row="7" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-                <RadioButton GroupName="TriggerButton"  Grid.Row="8" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-                <RadioButton GroupName="TriggerButton"  Grid.Row="9" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+                <RadioButton Name="LeftTrigger" GroupName="TriggerButton"  Grid.Row="7" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
+                <RadioButton Name="MiddleTrigger" GroupName="TriggerButton"  Grid.Row="8" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
+                <RadioButton Name="RightTrigger" GroupName="TriggerButton"  Grid.Row="9" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
 
                 <Label Grid.Row="10" Grid.Column="0" FontWeight="Bold">Layout Cycle Button</Label>
-                <RadioButton GroupName="SwapButton"  Grid.Row="11" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-                <RadioButton GroupName="SwapButton"  Grid.Row="12" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-                <RadioButton GroupName="SwapButton"  Grid.Row="13" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+                <RadioButton Name="LeftSwap" GroupName="SwapButton"  Grid.Row="11" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
+                <RadioButton Name="MiddleSwap" GroupName="SwapButton"  Grid.Row="12" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
+                <RadioButton Name="RightSwap" GroupName="SwapButton"  Grid.Row="13" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
 
                 <Label Grid.Row="14"/>
 
-                <Button Name="KillDropzone" Grid.Row="15" Grid.Column="0" Content="Stop Dropzone" Width="100"/>
+                <Button Name="Close" Grid.Row="15" Grid.Column="0" Content="Close Wizard" Width="100" Click="Close_Click"/>
                 <Label Grid.Row="16"/>
-                <Button Name="Close" Grid.Row="17" Grid.Column="0" Content="Close Wizard" Width="100" Click="Close_Click"/>
+                <Button Name="KillDropzone" Grid.Row="17" Grid.Column="0" Content="Stop Dropzone" Width="100" Click="KillDropzone_Click"/>
                 <Label Grid.Row="18"/>
+                <Button Name="Reset" Grid.Row="19" Grid.Column="0" Content="Reset" Width="100" Click="Reset_Click"/>
+                <Label Grid.Row="20"/>
             </Grid>
         </Grid>
     </Grid>

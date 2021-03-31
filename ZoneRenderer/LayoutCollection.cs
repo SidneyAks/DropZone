@@ -7,14 +7,18 @@ namespace ZoneRenderer
 {
     [Serializable]
     [XmlRoot("Layouts")]
-    public class LayoutCollection : List<Layout>
+    public class LayoutCollection
     {
-        public RenderedLayout ActiveLayout => activeLayout ?? (activeLayout = this.First().Render());
+        public List<Layout> List { get; set; }
+
+        public Layout ParentLayout { get; set; }
+
+        public RenderedLayout ActiveLayout => activeLayout ?? (activeLayout = List.First().Render(Parent: ParentLayout));
         private RenderedLayout activeLayout;
 
         public RenderedLayout ActivateNextZone()
         {
-            activeLayout = this[(this.IndexOf(ActiveLayout.Base) + 1) % this.Count].Render();
+            activeLayout = List[(List.IndexOf(ActiveLayout.Base) + 1) % List.Count].Render(Parent: ParentLayout);
             return activeLayout;
         }
     }

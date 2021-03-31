@@ -22,7 +22,9 @@ namespace DropZone
         {
             var handle = GetConsoleWindow();
             if (handle == IntPtr.Zero)
+            {
                 AllocConsole();
+            }
             else
                 ShowWindow(handle, SW_SHOW);
         }

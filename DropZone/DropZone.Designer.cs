@@ -239,205 +239,190 @@ namespace DropZone
             }
         }
 
+        private static Layout DefaultUniveralLayout => new Layout()
+        {
+            Name = "Global",
+            List =
+            {
+                new Zone()
+                {
+                    Name = "This Monitor",
+                    Target = new Bounds<Ratio>()
+                    {
+                        Left = "0",
+                        Top = "0",
+                        Right = "1",
+                        Bottom = "1"
+                    },
+                    Trigger = new Bounds<Ratio>()
+                    {
+                        Left = "0",
+                        Top = "0",
+                        Right = "1",
+                        Bottom = "1/10"
+                    }
+                }
+            }
+        };
+
         private static LayoutCollection DefaultLayoutCollection => new LayoutCollection()
         {
-/*            new Layout()
-            {
-                Name = "Quarters",
-                LayoutType = ZoneRenderer.LayoutKind.PerScreen,
-                List = {
-                    new Zone() {
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1/2",
-                            Bottom = "1/2",
+            ParentLayout = DefaultUniveralLayout,
+            List = new System.Collections.Generic.List<Layout>() {
+                new Layout()
+                {
+                    Name = "Vertical Thirds",
+                    List = {
+                        new Zone() {
+                            Name = "Top 1/3",
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1/3"
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1/3",
+                            },
                         },
-                    },
-                    new Zone() {
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "1/2",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1/2"
+                        new Zone() {
+                            Name = "Top 2/3",
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "2/3",
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "1/3",
+                                Right = "1",
+                                Bottom = "1/2",
+                            },
                         },
-                    },
-                    new Zone() {
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "1/2",
-                            Right = "1/2",
-                            Bottom = "1",
+                        new Zone() {
+                            Name = "Bottom 2/3",
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "1/3",
+                                Right = "1",
+                                Bottom = "1"
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "1/2",
+                                Right = "1",
+                                Bottom = "2/3",
+                            },
                         },
-                    },
-                    new Zone() {
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "1/2",
-                            Top = "1/2",
-                            Right = "1",
-                            Bottom = "1"
-                        },
-                    }
-                }
-            },*/
-            new Layout()
-            {
-                Name = "Vertical Thirds",
-                List = {
-                    new Zone() {
-                        Name = "Top 1/3",
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1/3"
-                        },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1/3",
-                        },
-                    },
-                    new Zone() {
-                        Name = "Top 2/3",
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "2/3",
-                        },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "1/3",
-                            Right = "1",
-                            Bottom = "1/2",
-                        },
-                    },
-                    new Zone() {
-                        Name = "Bottom 2/3",
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "1/3",
-                            Right = "1",
-                            Bottom = "1"
-                        },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "1/2",
-                            Right = "1",
-                            Bottom = "2/3",
-                        },
-                    },
-                    new Zone() {
-                        Name = "Bottom 1/3",
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "2/3",
-                            Right = "1",
-                            Bottom = "1"
-                        },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "2/3",
-                            Right = "1",
-                            Bottom = "1",
-                        },
-                    }
+                        new Zone() {
+                            Name = "Bottom 1/3",
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "2/3",
+                                Right = "1",
+                                Bottom = "1"
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "2/3",
+                                Right = "1",
+                                Bottom = "1",
+                            },
+                        }
 
-                }
-            },
-            new Layout()
-            {
-                Name = "Per Monitor",
-                List = {
-                    new Zone() {
-                        Name = "Left 2 Monitors",
-                        Layout = ZoneRenderer.LayoutKind.Spanning,
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "2/3",
-                            Bottom = "1",
+                    }
+                },
+                new Layout()
+                {
+                    Name = "Per Monitor",
+                    List = {
+                        new Zone() {
+                            Name = "Left 2 Monitors",
+                            Layout = ZoneRenderer.LayoutKind.Spanning,
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "2/3",
+                                Bottom = "1",
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "1/10",
+                                Right = "1/3",
+                                Bottom = "1",
+                            }
                         },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "1/10",
-                            Right = "1/3",
-                            Bottom = "1",
-                        }
-                    },
-                    new Zone() {
-                        Name = "All 3 Monitors",
-                        Layout = ZoneRenderer.LayoutKind.Spanning,
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1",
+                        new Zone() {
+                            Name = "All 3 Monitors",
+                            Layout = ZoneRenderer.LayoutKind.Spanning,
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1",
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "1/3",
+                                Top = "1/10",
+                                Right = "2/3",
+                                Bottom = "1",
+                            }
                         },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "1/3",
-                            Top = "1/10",
-                            Right = "2/3",
-                            Bottom = "1",
-                        }
-                    },
-                    new Zone() {
-                        Name="Right 2 Monitors",
-                        Layout = ZoneRenderer.LayoutKind.Spanning,
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "1/3",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1",
+                        new Zone() {
+                            Name="Right 2 Monitors",
+                            Layout = ZoneRenderer.LayoutKind.Spanning,
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "1/3",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1",
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "2/3",
+                                Top = "1/10",
+                                Right = "1",
+                                Bottom = "1",
+                            }
                         },
-                        Trigger = new Bounds<Ratio>()
+                        new Zone()
                         {
-                            Left = "2/3",
-                            Top = "1/10",
-                            Right = "1",
-                            Bottom = "1",
-                        }
-                    },
-                    new Zone()
-                    {
-                        Name = "This Monitor",
-                        Target = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1"
-                        },
-                        Trigger = new Bounds<Ratio>()
-                        {
-                            Left = "0",
-                            Top = "0",
-                            Right = "1",
-                            Bottom = "1/10"
+                            Name = "This Monitor",
+                            Target = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1"
+                            },
+                            Trigger = new Bounds<Ratio>()
+                            {
+                                Left = "0",
+                                Top = "0",
+                                Right = "1",
+                                Bottom = "1/10"
+                            }
                         }
                     }
-                }
-            },
-            new Layout()
+                },
+                new Layout()
             {
                 Name = "SplitValue",
                 List =
@@ -556,7 +541,8 @@ namespace DropZone
                     },
                 }
             }
+            }
         };
-       
+
     }
 }

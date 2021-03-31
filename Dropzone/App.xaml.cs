@@ -31,15 +31,17 @@ namespace DropZone
             else
             {
                 SingleInstance.Dispatcher.Intialize(ConfigrationPipeName, "Dropzone", args.ToArray());
-                DropZone.Settings.PropertyChanged += (s, e) =>
-                {
-                    DropZone.Settings.Save();
-                    SingleInstance.Dispatcher.SendArgToPipeLine(App.DaemonPipeName, "Restart");
-                };
                 var application = new App();
+                DropZone.Settings.PropertyChanged += PropertyChangedHandler;
                 application.InitializeComponent();
                 application.Run();
             }
+        }
+
+        public static void PropertyChangedHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            DropZone.Settings.Save();
+            SingleInstance.Dispatcher.SendArgToPipeLine(App.DaemonPipeName, "Restart");
         }
 
         [DipatchRegistration("Restart")]

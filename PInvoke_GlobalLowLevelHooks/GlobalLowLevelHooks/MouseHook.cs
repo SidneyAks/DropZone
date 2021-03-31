@@ -93,6 +93,12 @@ namespace GlobalLowLevelHooks
         /// </summary>
         private IntPtr HookFunc(int nCode, IntPtr wParam, IntPtr lParam)
         {
+#if DEBUG
+            if ((MouseMessages)wParam != MouseMessages.WM_MOUSEMOVE && (MouseMessages)wParam != MouseMessages.WM_MOUSEWHEEL)
+            {
+                Console.WriteLine($"Mouse Recieved -- wparam {wParam} lparam {lParam}");
+            }
+#endif
             // parse system messages
             if (nCode >= 0 && (MouseMessages)wParam != MouseMessages.WM_MOUSEWHEEL)
             {
@@ -101,7 +107,7 @@ namespace GlobalLowLevelHooks
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
 
-        #region WinAPI
+#region WinAPI
         private const int WH_MOUSE_LL = 14;
 
         private enum MouseMessages
@@ -147,6 +153,6 @@ namespace GlobalLowLevelHooks
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
-        #endregion
+#endregion
     }
 }
