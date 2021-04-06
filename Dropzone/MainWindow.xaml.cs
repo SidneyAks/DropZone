@@ -149,7 +149,7 @@ namespace DropZone
                 if (layout != null)
                 {
                     ZoneRenderer.GDI.GDIZone.PaintTransparency(e.Graphics, rect, ActiveZones, true, true);
-                    ZoneRenderer.GDI.GDIZone.PaintLabel(e.Graphics, rect, layout, false, false);
+                    ZoneRenderer.GDI.GDIZone.PaintLabel(e.Graphics, rect, layout, false, false, ActiveZones);
                 }
             }
         }
@@ -159,12 +159,18 @@ namespace DropZone
             var coordinates = PictureBox.PointToClient(System.Windows.Forms.Cursor.Position);
             var l = (PictureBox.Tag as RenderedLayout)?.GetActiveZoneFromPoint(coordinates.X, coordinates.Y);
             if (l != null)
-            if (!(ActiveZones.Contains(l) && ActiveZones.Count == 1))
             {
-                ActiveZones = new List<RenderedZone>() { l };
-                ActiveZone = l?.Zone;
-                LayoutExplorer.SelectedItem = ActiveZone;
-
+                if (!(ActiveZones.Contains(l) && ActiveZones.Count == 1))
+                {
+                    ActiveZones = new List<RenderedZone>() { l };
+                    ActiveZone = l?.Zone;
+                    LayoutExplorer.SelectedItem = ActiveZone;
+                    PictureBox.Refresh();
+                }
+            }
+            else if (ActiveZones.Count > 0)
+            {
+                ActiveZones.Clear();
                 PictureBox.Refresh();
             }
         }

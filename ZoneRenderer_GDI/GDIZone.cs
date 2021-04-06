@@ -18,7 +18,9 @@ namespace ZoneRenderer.GDI
     {
         private static Pen ThickRedPen = new Pen(LabelColor);
         private static Pen ThinRedPen = new Pen(LabelColor, .5f);
+        private static Pen ThinRedPenInverted = new Pen(Color.FromArgb(LabelColor.ToArgb() ^ 0xffffff), .5f);
         private static Brush RedBrush = new SolidBrush(LabelColor);
+        private static Brush RedBrushInverted = new SolidBrush(Color.FromArgb(LabelColor.ToArgb() ^ 0xffffff));
         private static Brush ActiveBrush = new SolidBrush(ActiveZoneColor);
         private static Brush InactiveBrush = new SolidBrush(BackgroundColor);
         private static Brush noTransparentInactiveBrush = new SolidBrush(Color.FromArgb(255, BackgroundColor.R, BackgroundColor.G, BackgroundColor.B));
@@ -49,7 +51,7 @@ namespace ZoneRenderer.GDI
                 }
             }
         }
-        public static void PaintLabel(Graphics g, RECT rect, RenderedLayout Layout, bool clear = true, bool title = true)
+        public static void PaintLabel(Graphics g, RECT rect, RenderedLayout Layout, bool clear = true, bool title = true, List<RenderedZone> ActiveZones = null)
         {
             if (clear)
             {
@@ -65,15 +67,18 @@ namespace ZoneRenderer.GDI
             }
 
             int i = 0;
-            foreach (var Zone in Layout.Zones)
+            foreach (var Zone in Layout.Zones.Except(ActiveZones).Union(ActiveZones))
             {
                 i += 1;
                 var text = Zone.Name ?? i.ToString();
                 var size = g.MeasureString(text, LabelFont).ToSize();
                 var point = new Point(Zone.Trigger.Left + ((Zone.TriggerWidth - size.Width) / 2), Zone.Trigger.Top + ((Zone.TriggerHeight - size.Height) / 2));
 
-                g.DrawString(text, LabelFont, RedBrush, point);
-                g.DrawRectangle(ThinRedPen, new Rectangle(Zone.Trigger.Left, Zone.Trigger.Top, Zone.TriggerWidth, Zone.TriggerHeight));
+                var borderColor = (ActiveZones?.Contains(Zone) ?? false) ? ThinRedPenInverted : ThinRedPen;
+                var labelColor = (ActiveZones?.Contains(Zone) ?? false) ? RedBrushInverted : RedBrush;
+
+                g.DrawString(text, LabelFont, labelColor, point);
+                g.DrawRectangle(borderColor, new Rectangle(Zone.Trigger.Left, Zone.Trigger.Top, Zone.TriggerWidth, Zone.TriggerHeight));
             }
         }
 
