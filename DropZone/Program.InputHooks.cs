@@ -1,10 +1,5 @@
 ﻿using GlobalLowLevelHooks;
 using System;
-using System.Configuration;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using ZoneRenderer;
 using static GlobalLowLevelHooks.MouseHook;
 
@@ -12,9 +7,9 @@ namespace DropZone
 {
     public enum MouseButtonTriggers
     {
-        LeftButton,
-        MiddleButton,
-        RightButton,
+        Left,
+        Middle,
+        Right,
     }
 
     public partial class Program
@@ -98,15 +93,15 @@ namespace DropZone
 
             switch (DropZone.Settings.TriggerButton)
             {
-                case MouseButtonTriggers.LeftButton:
+                case MouseButtonTriggers.Left:
                     mhook.LeftButtonDown += MouseButtonDown;
                     mhook.LeftButtonUp += MouseButtonUp;
                     break;
-                case MouseButtonTriggers.MiddleButton:
+                case MouseButtonTriggers.Middle:
                     mhook.MiddleButtonDown += MouseButtonDown;
                     mhook.MiddleButtonUp += MouseButtonUp;
                     break;
-                case MouseButtonTriggers.RightButton:
+                case MouseButtonTriggers.Right:
                     mhook.RightButtonDown += MouseButtonDown;
                     mhook.RightButtonUp += MouseButtonUp;
                     break;
@@ -114,13 +109,13 @@ namespace DropZone
 
             switch (DropZone.Settings.SwapButton)
             {
-                case MouseButtonTriggers.LeftButton:
+                case MouseButtonTriggers.Left:
                     mhook.LeftButtonDown += SwapButtonDown;
                     break;
-                case MouseButtonTriggers.MiddleButton:
+                case MouseButtonTriggers.Middle:
                     mhook.MiddleButtonDown += SwapButtonDown;
                     break;
-                case MouseButtonTriggers.RightButton:
+                case MouseButtonTriggers.Right:
                     mhook.RightButtonDown += SwapButtonDown;
                     break;
             }

@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Drawing;
 using ZoneRenderer;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Reflection;
+using System.Windows.Markup;
 
 namespace DropZone
 {
+    public class EnumToCollectionExtension : MarkupExtension
+    {
+        public Type EnumType { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (EnumType == null) throw new ArgumentNullException(nameof(EnumType));
+
+            return Enum.GetValues(EnumType);
+        }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -44,6 +47,11 @@ namespace DropZone
 
             Backer = DropZone.Settings.Zones.ParentLayout;
             this.PropertyChanged += (s, e) => PictureBox.Refresh();
+            this.ContentRendered += (s, e) =>
+            {
+                ListBox_SelectionChanged(this.TriggerRadio, null);
+                ListBox_SelectionChanged(this.SwapRadio, null);
+            };
         }
 
         public List<Zone> DataGridZones
@@ -213,6 +221,23 @@ namespace DropZone
             OnPropertyChanged("RequireShift");
             OnPropertyChanged("RequireWinKey");
             OnPropertyChanged("OnlyTriggerOnTitleBarClick");*/
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.ListBox lb && lb.Items != null)
+            {
+                var otherControl = lb.Name == "TriggerRadio" ? this.SwapRadio : TriggerRadio;
+
+                foreach (var value in Enum.GetValues(typeof(MouseButtonTriggers)))
+                {
+                    ListBoxItem el = otherControl?.ItemContainerGenerator.ContainerFromItem(value) as ListBoxItem;
+                    if (el != null)
+                    {
+                        el.IsEnabled = (int)value != (int)(lb?.SelectedItem ?? value);
+                    }
+                }
+            }
         }
     }
 }

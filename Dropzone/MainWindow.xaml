@@ -4,13 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DropZone"
-        xmlns:vc="clr-namespace:ValueConverters"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <vc:EnumBooleanConverter x:Key="EnumBooleanConverter"></vc:EnumBooleanConverter>
         <CollectionViewSource x:Key="ExistingTabs" Source="{Binding ExistingTabs}"/>
+
+        <Style x:Key="RadioButtonListItem" TargetType="{x:Type ListBoxItem}" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <DockPanel LastChildFill="True" Background="{TemplateBinding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+                            <RadioButton IsChecked="{TemplateBinding IsSelected}" Focusable="False" IsHitTestVisible="False" VerticalAlignment="Center" Margin="0,0,4,0" />
+                            <ContentPresenter
+                                Content             = "{TemplateBinding ContentControl.Content}"
+                                ContentTemplate     = "{TemplateBinding ContentControl.ContentTemplate}"
+                                ContentStringFormat = "{TemplateBinding ContentControl.ContentStringFormat}"
+                                HorizontalAlignment = "{TemplateBinding Control.HorizontalContentAlignment}"
+                                VerticalAlignment   = "{TemplateBinding Control.VerticalContentAlignment}"
+                                SnapsToDevicePixels = "{TemplateBinding UIElement.SnapsToDevicePixels}" 
+                             />
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RadioButtonList" TargetType="ListBox">
+            <Style.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </Style.Resources>
+
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background"      Value="Transparent" />
+
+            <Setter Property="ItemContainerStyle" Value="{StaticResource RadioButtonListItem}" />
+
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="HorizontalRadioButtonList" BasedOn="{StaticResource RadioButtonList}" TargetType="ListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Background="Transparent" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SpacedRadioButtonListItem" TargetType="ListBoxItem" BasedOn="{StaticResource RadioButtonListItem}">
+            <Setter Property="Margin" Value="10,0,0,0" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid>
@@ -40,7 +97,6 @@
                     <DataTemplate/>
                 </TabControl.ContentTemplate>
             </TabControl>
-
             <WindowsFormsHost Grid.Row="1" Grid.Column="1">
                 <wf:PictureBox Dock="Fill" SizeMode="Zoom" MouseMove="PictureBox_MouseMove" x:Name="PictureBox" Paint="PictureBox_Paint"/>
             </WindowsFormsHost>
@@ -52,16 +108,8 @@
                       AutoGeneratingColumn="LayoutExplorer_AutoGeneratingColumn"/>
             <Label Grid.Row="4"/>
 
-
-
             <Grid Grid.RowSpan="100" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -78,10 +126,17 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                
                 <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold">Trigger Hotkeys</Label>
                 <CheckBox Name="RequireCtrl" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireCtrl, Mode=TwoWay}">Control</CheckBox>
                 <CheckBox Name="RequireAlt" Grid.Row="2" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireAlt, Mode=TwoWay}">Alt</CheckBox>
@@ -89,25 +144,30 @@
                 <CheckBox Name="RequireWinKey" Grid.Row="4" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=RequireWinKey, Mode=TwoWay}">Win</CheckBox>
                 <CheckBox Name="OnlyTriggerOnTitleBarClick" Grid.Row="5" Grid.Column="0"  Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=OnlyTriggerOnTitleBarClick, Mode=TwoWay}">Only Click Titlebar</CheckBox>
 
-
                 <Label Grid.Row="6" Grid.Column="0" FontWeight="Bold">Trigger Button</Label>
-                <RadioButton Name="LeftTrigger" GroupName="TriggerButton"  Grid.Row="7" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-                <RadioButton Name="MiddleTrigger" GroupName="TriggerButton"  Grid.Row="8" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-                <RadioButton Name="RightTrigger" GroupName="TriggerButton"  Grid.Row="9" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+                <ListBox Name="TriggerRadio" Grid.Row="7" Grid.Column="0" Style="{StaticResource RadioButtonList}"
+                    ItemContainerStyle="{StaticResource SpacedRadioButtonListItem}"
+                    SelectedItem="{Binding Source={x:Static local:DropZone.Settings}, Path=TriggerButton, Mode=TwoWay}"
+                    ItemsSource="{local:EnumToCollection EnumType={x:Type local:MouseButtonTriggers}}" 
+                    SelectionChanged="ListBox_SelectionChanged">
+                </ListBox>
 
-                <Label Grid.Row="10" Grid.Column="0" FontWeight="Bold">Layout Cycle Button</Label>
-                <RadioButton Name="LeftSwap" GroupName="SwapButton"  Grid.Row="11" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LeftButton}">Left</RadioButton>
-                <RadioButton Name="MiddleSwap" GroupName="SwapButton"  Grid.Row="12" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=MiddleButton}">Middle</RadioButton>
-                <RadioButton Name="RightSwap" GroupName="SwapButton"  Grid.Row="13" Grid.Column="0" Margin="10,0,0,0" IsChecked="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RightButton}">Right</RadioButton>
+                <Label Grid.Row="8" Grid.Column="0" FontWeight="Bold">Layout Cycle Button</Label>
+                <ListBox Name="SwapRadio" Grid.Row="9" Grid.Column="0" Style="{StaticResource RadioButtonList}"
+                    ItemContainerStyle="{StaticResource SpacedRadioButtonListItem}"
+                    SelectedItem="{Binding Source={x:Static local:DropZone.Settings}, Path=SwapButton, Mode=TwoWay}"
+                    ItemsSource="{local:EnumToCollection EnumType={x:Type local:MouseButtonTriggers}}"
+                    SelectionChanged="ListBox_SelectionChanged">
+                </ListBox>
 
+                <Label Grid.Row="10"/>
+
+                <Button Name="Close" Grid.Row="11" Grid.Column="0" Content="Close Wizard" Width="100" Click="Close_Click"/>
+                <Label Grid.Row="12"/>
+                <Button Name="KillDropzone" Grid.Row="13" Grid.Column="0" Content="Stop Dropzone" Width="100" Click="KillDropzone_Click"/>
                 <Label Grid.Row="14"/>
-
-                <Button Name="Close" Grid.Row="15" Grid.Column="0" Content="Close Wizard" Width="100" Click="Close_Click"/>
+                <Button Name="Reset" Grid.Row="15" Grid.Column="0" Content="Reset" Width="100" Click="Reset_Click"/>
                 <Label Grid.Row="16"/>
-                <Button Name="KillDropzone" Grid.Row="17" Grid.Column="0" Content="Stop Dropzone" Width="100" Click="KillDropzone_Click"/>
-                <Label Grid.Row="18"/>
-                <Button Name="Reset" Grid.Row="19" Grid.Column="0" Content="Reset" Width="100" Click="Reset_Click"/>
-                <Label Grid.Row="20"/>
             </Grid>
         </Grid>
     </Grid>
