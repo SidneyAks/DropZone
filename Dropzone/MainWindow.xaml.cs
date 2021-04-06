@@ -222,7 +222,6 @@ namespace DropZone
             OnPropertyChanged("RequireWinKey");
             OnPropertyChanged("OnlyTriggerOnTitleBarClick");*/
         }
-
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is System.Windows.Controls.ListBox lb && lb.Items != null)

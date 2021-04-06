@@ -105,7 +105,12 @@
                       ItemsSource="{Binding Path=DataGridZones}"
                       SelectionChanged="LayoutExplorer_SelectionChanged"
                       BeginningEdit="DataGrid_BeginningEdit"
-                      AutoGeneratingColumn="LayoutExplorer_AutoGeneratingColumn"/>
+                      AutoGeneratingColumn="LayoutExplorer_AutoGeneratingColumn">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#00F"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="#FFF"/>
+                </DataGrid.Resources>
+            </DataGrid>
             <Label Grid.Row="4"/>
 
             <Grid Grid.RowSpan="100" Grid.Column="5">
