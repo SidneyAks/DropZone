@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -7,6 +8,7 @@ using System.Xml.Serialization;
 namespace ZoneRenderer
 {
     [Serializable]
+    [DebuggerDisplay("{numerator}/{denominator}")]
     public class Ratio
     {
         private static Regex ValidationRegex = new Regex(@"^\d+/\d+$");
@@ -52,5 +54,27 @@ namespace ZoneRenderer
         }
 
         public Decimal Decimal => ((decimal)numerator / (decimal)denominator);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Ratio other)
+            {
+                return
+                    this.numerator.Equals(other.numerator) &&
+                    this.denominator.Equals(other.denominator);
+            }
+            return false;
+        }
+
+
+        public static bool operator ==(Ratio lhs, Ratio rhs)
+        {
+            return (lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
+        }
+
+        public static bool operator !=(Ratio lhs, Ratio rhs)
+        {
+            return !(lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
+        }
     }
 }

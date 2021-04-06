@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace ZoneRenderer
 {
@@ -7,6 +8,7 @@ namespace ZoneRenderer
 
     }
 
+    [DebuggerDisplay("{Left},{Top},{Right},{Bottom}")]
     public class Bounds<T> : Bounds// : IXmlSerializable
     {
         public override bool Equals(object obj)

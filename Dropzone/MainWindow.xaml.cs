@@ -73,6 +73,7 @@ namespace DropZone
                 OnPropertyChanged("DataGridZones");
             }
         }
+
         public List<RenderedZone> ActiveZones
         {
             get => _activeZones ?? new List<RenderedZone>();
@@ -81,6 +82,7 @@ namespace DropZone
                 _activeZones = value;
             }
         }
+
         public Zone ActiveZone
         {
             get => _activeZone;
@@ -89,8 +91,11 @@ namespace DropZone
                 _activeZone = value;
             }
         }
+
         private Layout _backer;
+
         private List<RenderedZone> _activeZones;
+
         private Zone _activeZone;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -152,8 +157,8 @@ namespace DropZone
         private void PictureBox_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var coordinates = PictureBox.PointToClient(System.Windows.Forms.Cursor.Position);
-            var l = (PictureBox.Tag as RenderedLayout).GetActiveZoneFromPoint(coordinates.X, coordinates.Y);
-
+            var l = (PictureBox.Tag as RenderedLayout)?.GetActiveZoneFromPoint(coordinates.X, coordinates.Y);
+            if (l != null)
             if (!(ActiveZones.Contains(l) && ActiveZones.Count == 1))
             {
                 ActiveZones = new List<RenderedZone>() { l };
