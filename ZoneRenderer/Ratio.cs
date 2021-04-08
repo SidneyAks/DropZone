@@ -9,7 +9,7 @@ namespace ZoneRenderer
 {
     [Serializable]
     [DebuggerDisplay("{numerator}/{denominator}")]
-    public class Ratio
+    public class Ratio : IRenderableBound
     {
         private static Regex ValidationRegex = new Regex(@"^\d+/\d+$");
 
@@ -66,6 +66,10 @@ namespace ZoneRenderer
             return false;
         }
 
+        public int RenderBound(RectangleSide Side, int Offset, int Dimension)
+        {
+            return (int)(Dimension * Decimal) + Offset;
+        }
 
         public static bool operator ==(Ratio lhs, Ratio rhs)
         {

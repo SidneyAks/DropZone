@@ -67,6 +67,7 @@ namespace ZoneRenderer.GDI
             }
 
             int i = 0;
+            ActiveZones = ActiveZones ?? new List<RenderedZone>();
             foreach (var Zone in Layout.Zones.Except(ActiveZones).Union(ActiveZones))
             {
                 i += 1;

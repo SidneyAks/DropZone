@@ -83,7 +83,7 @@ namespace DropZone
             }
         }
 
-        public Zone ActiveZone
+        public object ActiveZone
         {
             get => _activeZone;
             set
@@ -96,7 +96,7 @@ namespace DropZone
 
         private List<RenderedZone> _activeZones;
 
-        private Zone _activeZone;
+        private object _activeZone;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
@@ -200,9 +200,9 @@ namespace DropZone
         {
             if (!System.Environment.StackTrace.Contains("DropZone.MainWindow.PictureBox_MouseMove"))
             {
-                ActiveZone = LayoutExplorer.SelectedItem as Zone;
+                ActiveZone = LayoutExplorer.SelectedItem;// as RenderableZoneBase<IRenderableBound>;
                 var rl = PictureBox.Tag as RenderedLayout;
-                var zones = rl?.Zones.Where(x => x.Zone == ActiveZone).ToList(); ;
+                var zones = rl?.Zones.Where(x => (Zone)x.Zone == (Zone)ActiveZone).ToList(); ;
                 ActiveZones = zones;
                 PictureBox.Refresh();
             }
