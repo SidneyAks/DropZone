@@ -205,7 +205,7 @@ namespace DropZone
             Name = "Global",
             List =
             {
-                new Zone()
+                new RenderableZoneBase<Ratio>()
                 {
                     Name = "This Monitor",
                     Target = new Bounds<Ratio>()
@@ -234,7 +234,7 @@ namespace DropZone
                 {
                     Name = "Vertical Thirds",
                     List = {
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "Top 1/3",
                             Target = new Bounds<Ratio>()
                             {
@@ -251,7 +251,7 @@ namespace DropZone
                                 Bottom = "1/3",
                             },
                         },
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "Top 2/3",
                             Target = new Bounds<Ratio>()
                             {
@@ -268,7 +268,7 @@ namespace DropZone
                                 Bottom = "1/2",
                             },
                         },
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "Bottom 2/3",
                             Target = new Bounds<Ratio>()
                             {
@@ -285,7 +285,7 @@ namespace DropZone
                                 Bottom = "2/3",
                             },
                         },
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "Bottom 1/3",
                             Target = new Bounds<Ratio>()
                             {
@@ -309,7 +309,7 @@ namespace DropZone
                 {
                     Name = "Per Monitor",
                     List = {
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "Left 2 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
                             Target = new Bounds<Ratio>()
@@ -327,7 +327,7 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name = "All 3 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
                             Target = new Bounds<Ratio>()
@@ -345,7 +345,7 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new Zone() {
+                        new RenderableZoneBase<Ratio>() {
                             Name="Right 2 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
                             Target = new Bounds<Ratio>()
@@ -363,7 +363,7 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new Zone()
+                        new RenderableZoneBase<Ratio>()
                         {
                             Name = "This Monitor",
                             Target = new Bounds<Ratio>()
@@ -388,7 +388,7 @@ namespace DropZone
                 Name = "SplitValue",
                 List =
                 {
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name = "Top 1/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
@@ -407,7 +407,7 @@ namespace DropZone
                             Bottom = "1/3",
                         },
                     },
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name = "Top 2/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
@@ -426,7 +426,7 @@ namespace DropZone
                             Bottom = "1/2",
                         },
                     },
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name = "Bottom 2/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
@@ -445,7 +445,7 @@ namespace DropZone
                             Bottom = "2/3",
                         },
                     },
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name = "Bottom 1/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
@@ -464,7 +464,7 @@ namespace DropZone
                             Bottom = "1",
                         },
                     },
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name = "All 3 Monitors",
                         Layout = ZoneRenderer.LayoutKind.Spanning,
                         Target = new Bounds<Ratio>()
@@ -482,7 +482,7 @@ namespace DropZone
                             Bottom = "1",
                         }
                     },
-                    new Zone() {
+                    new RenderableZoneBase<Ratio>() {
                         Name="Right 2 Monitors",
                         Layout = ZoneRenderer.LayoutKind.Spanning,
                         Target = new Bounds<Ratio>()

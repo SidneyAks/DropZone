@@ -54,7 +54,7 @@ namespace DropZone
             };
         }
 
-        public List<Zone> DataGridZones
+        public List<IRenderableZoneBase<IRenderableBound>> DataGridZones
         {
             get
             {

@@ -3,26 +3,13 @@ using System.Diagnostics;
 
 namespace ZoneRenderer
 {
-    public enum RectangleSide
-    {
-        Left,
-        Top,
-        Right,
-        Bottom
-    }
+    public interface IBounds<out Tleft, out Ttop, out Tright, out TBottom> { }
 
-    public interface IRenderableBound
-    {
-        int RenderBound(RectangleSide Side, int Offset, int Dimension);
-    }
+    public interface IBounds<out T> : IBounds<T,T,T,T> { }
 
-    public class Bounds
-    {
-
-    }
 
     [DebuggerDisplay("{Left},{Top},{Right},{Bottom}")]
-    public class Bounds<T> : Bounds// : IXmlSerializable
+    public class Bounds<T> : IBounds<T>
     {
         public override bool Equals(object obj)
         {
@@ -36,8 +23,6 @@ namespace ZoneRenderer
             }
             return false;
         }
-
-        public Bounds renderedFrom { get; set; }
 
         public static bool operator ==(Bounds<T> lhs, Bounds<T> rhs)
         {
@@ -53,6 +38,8 @@ namespace ZoneRenderer
         public T Top { get; set; }
         public T Right { get; set; }
         public T Bottom { get; set; }
+
+        public override string ToString() => $"{typeof(T).Name} -- Left : {Left} , Top : {Top}, Right : {Right}, Bottom : {Bottom}";
     }
 
     public class RenderableBounds<T> : Bounds<T> where T: IRenderableBound

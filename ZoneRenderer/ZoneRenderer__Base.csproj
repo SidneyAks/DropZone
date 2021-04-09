@@ -51,10 +51,11 @@
     <Compile Include="LayoutCollection.cs" />
     <Compile Include="MonitorInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ratio.cs" />
+    <Compile Include="BoundTypes.cs" />
+    <Compile Include="RenderableZoneBase.cs" />
+    <Compile Include="RenderedLayout.cs" />
     <Compile Include="ZoneRendered.cs" />
-    <Compile Include="ZoneRatio.cs" />
-    <Compile Include="ZoneAbastract.cs" />
+    <Compile Include="ZoneBase_T.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

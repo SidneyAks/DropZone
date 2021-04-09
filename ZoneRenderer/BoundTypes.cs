@@ -7,11 +7,26 @@ using System.Xml.Serialization;
 
 namespace ZoneRenderer
 {
+    public enum RectangleSide
+    {
+        Left,
+        Top,
+        Right,
+        Bottom
+    }
+
+    public interface IRenderableBound
+    {
+        int RenderBound(RectangleSide Side, int Offset, int Dimension);
+    }
+
     [Serializable]
     [DebuggerDisplay("{numerator}/{denominator}")]
     public class Ratio : IRenderableBound
     {
         private static Regex ValidationRegex = new Regex(@"^\d+/\d+$");
+
+        public override string ToString() => Value;
 
         [XmlText]
         public string Value
@@ -53,7 +68,7 @@ namespace ZoneRenderer
             return new Ratio() { Value = str };
         }
 
-        public Decimal Decimal => ((decimal)numerator / (decimal)denominator);
+        public decimal Decimal => ((decimal)numerator / (decimal)denominator);
 
         public override bool Equals(object obj)
         {
