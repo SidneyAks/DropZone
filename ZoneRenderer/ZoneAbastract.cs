@@ -51,15 +51,18 @@ namespace ZoneRenderer
         public Bounds<T> Trigger { get; set; }
     }
 
+    public interface IRenderableZoneBase<out T> { }
+
     [Serializable]
-    public class RenderableZoneBase<T> : ZoneBase<T> where T: IRenderableBound
+    public class RenderableZoneBase<T> : ZoneBase<T>, IRenderableZoneBase<T> where T : IRenderableBound
     {
         public RenderedZone Render(int x, int y, int LayoutWidth, int LayoutHeight)
         {
+            IRenderableZoneBase<IRenderableBound> foo = new RenderableZoneBase<Ratio>();
             return new RenderedZone()
             {
                 Name = this.Name,
-                Zone = this,
+                Zone = (IRenderableZoneBase<IRenderableBound>)this,
                 Target = this.RenderableTarget.RenderBounds(x, y, LayoutWidth, LayoutHeight),
                 Trigger = this.RenderableTrigger?.RenderBounds(x, y, LayoutWidth, LayoutHeight)
             };
@@ -75,7 +78,7 @@ namespace ZoneRenderer
             };
             //            set; 
         }
-        public RenderableBounds<T> RenderableTrigger 
+        public RenderableBounds<T> RenderableTrigger
         {
             get => new RenderableBounds<T>()
             {
@@ -84,7 +87,7 @@ namespace ZoneRenderer
                 Right = Trigger.Right,
                 Bottom = Trigger.Bottom,
             };
-//            set; 
+            //            set; 
         }
     }
 }

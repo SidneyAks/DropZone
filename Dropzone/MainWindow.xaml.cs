@@ -83,7 +83,7 @@ namespace DropZone
             }
         }
 
-        public object ActiveZone
+        public IRenderableZoneBase<IRenderableBound> ActiveZone
         {
             get => _activeZone;
             set
@@ -96,7 +96,7 @@ namespace DropZone
 
         private List<RenderedZone> _activeZones;
 
-        private object _activeZone;
+        private IRenderableZoneBase<IRenderableBound> _activeZone;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
@@ -171,6 +171,7 @@ namespace DropZone
             else if (ActiveZones.Count > 0)
             {
                 ActiveZones.Clear();
+                LayoutExplorer.SelectedItem = null;
                 PictureBox.Refresh();
             }
         }
@@ -200,11 +201,20 @@ namespace DropZone
         {
             if (!System.Environment.StackTrace.Contains("DropZone.MainWindow.PictureBox_MouseMove"))
             {
-                ActiveZone = LayoutExplorer.SelectedItem;// as RenderableZoneBase<IRenderableBound>;
-                var rl = PictureBox.Tag as RenderedLayout;
-                var zones = rl?.Zones.Where(x => (Zone)x.Zone == (Zone)ActiveZone).ToList(); ;
-                ActiveZones = zones;
-                PictureBox.Refresh();
+                if (LayoutExplorer.SelectedItem is IRenderableZoneBase<IRenderableBound> az)
+                {
+                    ActiveZone = az;
+                    var rl = PictureBox.Tag as RenderedLayout;
+                    var zones = rl?.Zones.Where(x => x.Zone.Equals(ActiveZone)).ToList(); ;
+                    ActiveZones = zones;
+                    PictureBox.Refresh();
+                }
+                else
+                {
+                    ActiveZone = null;
+                    ActiveZones = new List<RenderedZone>();
+                    PictureBox.Refresh();
+                }
             }
         }
 
