@@ -3,11 +3,11 @@
 namespace ZoneRenderer
 {
     [Serializable]
-    public class RenderedZone : ZoneBase<int>
+    public class RenderedZone : ZoneBase<int,int,int,int>
     {
-        public IRenderableZoneBase<IRenderableBound> Zone { get; set; } 
+        public IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound> Zone { get; set; } 
 
-        public new Bounds<int> Trigger { get => base.Trigger ?? base.Target; set => base.Trigger = value; }
+        public new Bounds<int,int,int,int> Trigger { get => base.Trigger ?? base.Target; set => base.Trigger = value; }
 
         public int TargetWidth => targetWidth ?? (targetWidth = Target.Right - Target.Left).Value;
         private int? targetWidth;

@@ -22,9 +22,10 @@ namespace ZoneRenderer
         private List<RenderedZone> RenderZones (Layout layoutBase, ScreenInfo.DisplayInfoCollection displayinfo = null)
         {
             displayinfo = displayinfo ?? ScreenInfo.GetDisplays();
-            return layoutBase.List.SelectMany<IRenderableZoneBase<IRenderableBound>, RenderedZone>(zone =>
+            return layoutBase.List.SelectMany<IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>, RenderedZone>(zone =>
                 //If layout is duplicated, create layout once per each monitor using said monitors bounds
                 (zone.Layout == LayoutKind.Duplicated ? displayinfo.Select(y => zone.Render(
+//                        DI: displayinfo,
                         x: y.WorkArea.Left,
                         y: y.WorkArea.Top,
                         LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,
@@ -32,6 +33,7 @@ namespace ZoneRenderer
                     )).OfType<RenderedZone>() :
                 //If layout is spanning, create layout once using full work area bounds
                 zone.Layout == LayoutKind.Spanning ? new RenderedZone[] {zone.Render(
+//                        DI: displayinfo,
                         x: displayinfo.Min(y => y.WorkArea.Left),
                         y: displayinfo.Min(y => y.WorkArea.Top),
                         LayoutWidth: displayinfo.MaxWidth - displayinfo.Min(y => y.WorkArea.Left),
@@ -42,6 +44,7 @@ namespace ZoneRenderer
                                                                     .Where(x => x < displayinfo.Count())
                                                                     .Select(x => displayinfo[x])
                                                                     .Select(y => zone.Render(
+//                        DI: displayinfo,
                         x: y.WorkArea.Left,
                         y: y.WorkArea.Top,
                         LayoutWidth: y.WorkArea.Right - y.WorkArea.Left,

@@ -3,17 +3,17 @@ using System.Diagnostics;
 
 namespace ZoneRenderer
 {
-    public interface IBounds<out Tleft, out Ttop, out Tright, out TBottom> { }
+    public interface IBounds<out Tleft, out Ttop, out Tright, out Tbottom> { }
 
     public interface IBounds<out T> : IBounds<T,T,T,T> { }
 
 
     [DebuggerDisplay("{Left},{Top},{Right},{Bottom}")]
-    public class Bounds<T> : IBounds<T>
+    public class Bounds<Tleft, Ttop, Tright, Tbottom> : IBounds<Tleft, Ttop, Tright, Tbottom>
     {
         public override bool Equals(object obj)
         {
-            if (obj is Bounds<T> other)
+            if (obj is Bounds<Tleft, Ttop, Tright, Tbottom> other)
             {
                 return
                     this.Left.Equals(other.Left) &&
@@ -24,29 +24,33 @@ namespace ZoneRenderer
             return false;
         }
 
-        public static bool operator ==(Bounds<T> lhs, Bounds<T> rhs)
+        public static bool operator ==(Bounds<Tleft, Ttop, Tright, Tbottom> lhs, Bounds<Tleft, Ttop, Tright, Tbottom> rhs)
         {
             return (lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
         }
 
-        public static bool operator !=(Bounds<T> lhs, Bounds<T> rhs)
+        public static bool operator !=(Bounds<Tleft, Ttop, Tright, Tbottom> lhs, Bounds<Tleft, Ttop, Tright, Tbottom> rhs)
         {
             return !(lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
         }
 
-        public T Left { get; set; }
-        public T Top { get; set; }
-        public T Right { get; set; }
-        public T Bottom { get; set; }
+        public Tleft Left { get; set; }
+        public Ttop Top { get; set; }
+        public Tright Right { get; set; }
+        public Tbottom Bottom { get; set; }
 
-        public override string ToString() => $"{typeof(T).Name} -- Left : {Left} , Top : {Top}, Right : {Right}, Bottom : {Bottom}";
+        public override string ToString() => $"Left : {Left} , Top : {Top}, Right : {Right}, Bottom : {Bottom}";
     }
 
-    public class RenderableBounds<T> : Bounds<T> where T: IRenderableBound
+    public class RenderableBounds<Tleft, Ttop, Tright, Tbottom> : Bounds<Tleft, Ttop, Tright, Tbottom>
+        where Tleft : IRenderableBound
+        where Ttop : IRenderableBound
+        where Tright : IRenderableBound
+        where Tbottom : IRenderableBound
     {
-        public Bounds<int> RenderBounds(int x, int y, int LayoutWidth, int LayoutHeight)
+        public Bounds<int, int, int, int> RenderBounds(int x, int y, int LayoutWidth, int LayoutHeight)
         {
-            return new Bounds<int>
+            return new Bounds<int, int, int, int>
             {
                 Top = Top.RenderBound(RectangleSide.Top, y, LayoutHeight),//(int)(LayoutHeight * Top.Decimal) + y,
                 Bottom = Bottom.RenderBound(RectangleSide.Bottom, y, LayoutHeight),//(int)(LayoutHeight * Bottom.Decimal) + y,

@@ -54,7 +54,7 @@ namespace DropZone
             };
         }
 
-        public List<IRenderableZoneBase<IRenderableBound>> DataGridZones
+        public List<IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>> DataGridZones
         {
             get
             {
@@ -83,7 +83,7 @@ namespace DropZone
             }
         }
 
-        public IRenderableZoneBase<IRenderableBound> ActiveZone
+        public IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound> ActiveZone
         {
             get => _activeZone;
             set
@@ -96,7 +96,7 @@ namespace DropZone
 
         private List<RenderedZone> _activeZones;
 
-        private IRenderableZoneBase<IRenderableBound> _activeZone;
+        private IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound> _activeZone;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
@@ -201,7 +201,7 @@ namespace DropZone
         {
             if (!System.Environment.StackTrace.Contains("DropZone.MainWindow.PictureBox_MouseMove"))
             {
-                if (LayoutExplorer.SelectedItem is IRenderableZoneBase<IRenderableBound> az)
+                if (LayoutExplorer.SelectedItem is IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound> az)
                 {
                     ActiveZone = az;
                     var rl = PictureBox.Tag as RenderedLayout;

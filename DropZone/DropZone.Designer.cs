@@ -205,17 +205,17 @@ namespace DropZone
             Name = "Global",
             List =
             {
-                new RenderableZoneBase<Ratio>()
+                new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>()
                 {
                     Name = "This Monitor",
-                    Target = new Bounds<Ratio>()
+                    Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                     {
                         Left = "0",
                         Top = "0",
                         Right = "1",
                         Bottom = "1"
                     },
-                    Trigger = new Bounds<Ratio>()
+                    Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                     {
                         Left = "0",
                         Top = "0",
@@ -234,16 +234,16 @@ namespace DropZone
                 {
                     Name = "Vertical Thirds",
                     List = {
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "Top 1/3",
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
                                 Right = "1",
                                 Bottom = "1/3"
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
@@ -251,16 +251,16 @@ namespace DropZone
                                 Bottom = "1/3",
                             },
                         },
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "Top 2/3",
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
                                 Right = "1",
                                 Bottom = "2/3",
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "1/3",
@@ -268,16 +268,16 @@ namespace DropZone
                                 Bottom = "1/2",
                             },
                         },
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "Bottom 2/3",
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "1/3",
                                 Right = "1",
                                 Bottom = "1"
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "1/2",
@@ -285,16 +285,16 @@ namespace DropZone
                                 Bottom = "2/3",
                             },
                         },
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "Bottom 1/3",
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "2/3",
                                 Right = "1",
                                 Bottom = "1"
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "2/3",
@@ -309,17 +309,17 @@ namespace DropZone
                 {
                     Name = "Per Monitor",
                     List = {
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "Left 2 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
                                 Right = "2/3",
                                 Bottom = "1",
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "1/10",
@@ -327,17 +327,17 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name = "All 3 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
                                 Right = "1",
                                 Bottom = "1",
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "1/3",
                                 Top = "1/10",
@@ -345,17 +345,17 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new RenderableZoneBase<Ratio>() {
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                             Name="Right 2 Monitors",
                             Layout = ZoneRenderer.LayoutKind.Spanning,
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "1/3",
                                 Top = "0",
                                 Right = "1",
                                 Bottom = "1",
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "2/3",
                                 Top = "1/10",
@@ -363,17 +363,17 @@ namespace DropZone
                                 Bottom = "1",
                             }
                         },
-                        new RenderableZoneBase<Ratio>()
+                        new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Name = "This Monitor",
-                            Target = new Bounds<Ratio>()
+                            Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
                                 Right = "1",
                                 Bottom = "1"
                             },
-                            Trigger = new Bounds<Ratio>()
+                            Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                             {
                                 Left = "0",
                                 Top = "0",
@@ -388,18 +388,18 @@ namespace DropZone
                 Name = "SplitValue",
                 List =
                 {
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name = "Top 1/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "0",
                             Right = "1",
                             Bottom = "1/3"
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "0",
@@ -407,18 +407,18 @@ namespace DropZone
                             Bottom = "1/3",
                         },
                     },
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name = "Top 2/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "0",
                             Right = "1",
                             Bottom = "2/3",
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "1/3",
@@ -426,18 +426,18 @@ namespace DropZone
                             Bottom = "1/2",
                         },
                     },
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name = "Bottom 2/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "1/3",
                             Right = "1",
                             Bottom = "1"
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "1/2",
@@ -445,18 +445,18 @@ namespace DropZone
                             Bottom = "2/3",
                         },
                     },
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name = "Bottom 1/3",
                         Layout = LayoutKind.SelectedScreens,
                         ScreenIndexes = new []{ 0 },
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "2/3",
                             Right = "1",
                             Bottom = "1"
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "2/3",
@@ -464,17 +464,17 @@ namespace DropZone
                             Bottom = "1",
                         },
                     },
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name = "All 3 Monitors",
                         Layout = ZoneRenderer.LayoutKind.Spanning,
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "0",
                             Top = "0",
                             Right = "1",
                             Bottom = "1",
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "1/3",
                             Top = "1/10",
@@ -482,17 +482,17 @@ namespace DropZone
                             Bottom = "1",
                         }
                     },
-                    new RenderableZoneBase<Ratio>() {
+                    new RenderableZoneBase<Ratio,Ratio,Ratio,Ratio>() {
                         Name="Right 2 Monitors",
                         Layout = ZoneRenderer.LayoutKind.Spanning,
-                        Target = new Bounds<Ratio>()
+                        Target = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "1/3",
                             Top = "0",
                             Right = "1",
                             Bottom = "1",
                         },
-                        Trigger = new Bounds<Ratio>()
+                        Trigger = new Bounds<Ratio,Ratio,Ratio,Ratio>()
                         {
                             Left = "2/3",
                             Top = "1/10",

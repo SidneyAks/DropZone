@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace ZoneRenderer
 {
-    public interface IRenderableZoneBase<out T> where T : IRenderableBound
+    public interface IRenderableZoneBase<out Tleft, out Ttop, out Tright, out Tbottom>
+        where Tleft : IRenderableBound
+        where Ttop : IRenderableBound
+        where Tright : IRenderableBound
+        where Tbottom : IRenderableBound
     {
         string Name { get; set; }
 
@@ -11,52 +15,55 @@ namespace ZoneRenderer
 
         int[] ScreenIndexes { get; set; }
 
-        IBounds<T> Target { get; }
+        IBounds<Tleft, Ttop, Tright, Tbottom> Target { get; }
 
-        IBounds<T> Trigger { get; }
+        IBounds<Tleft, Ttop, Tright, Tbottom> Trigger { get; }
 
         RenderedZone Render(int x, int y, int LayoutWidth, int LayoutHeight);
     }
 
     [Serializable]
-    public class RenderableZoneBase<T> : ZoneBase<T>, IRenderableZoneBase<T> where T : IRenderableBound
+    public class RenderableZoneBase<Tleft, Ttop, Tright, Tbottom> : 
+        ZoneBase<Tleft, Ttop, Tright, Tbottom>, 
+        IRenderableZoneBase<Tleft, Ttop, Tright, Tbottom>
+        where Tleft : IRenderableBound
+        where Ttop : IRenderableBound
+        where Tright : IRenderableBound
+        where Tbottom : IRenderableBound
     {
         public RenderedZone Render(int x, int y, int LayoutWidth, int LayoutHeight)
         {
-            IRenderableZoneBase<IRenderableBound> foo = new RenderableZoneBase<Ratio>();
             return new RenderedZone()
             {
                 Name = this.Name,
-                Zone = (IRenderableZoneBase<IRenderableBound>)this,
+                Zone = (IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>)this,
                 Target = this.RenderableTarget.RenderBounds(x, y, LayoutWidth, LayoutHeight),
                 Trigger = this.RenderableTrigger?.RenderBounds(x, y, LayoutWidth, LayoutHeight)
             };
         }
 
-        public RenderableBounds<T> RenderableTarget {
-            get => new RenderableBounds<T>()
+        public RenderableBounds<Tleft, Ttop, Tright, Tbottom> RenderableTarget {
+            get => new RenderableBounds<Tleft, Ttop, Tright, Tbottom>()
             {
                 Left = Target.Left,
                 Top = Target.Top,
                 Right = Target.Right,
                 Bottom = Target.Bottom,
             };
-            //            set; 
         }
-        public RenderableBounds<T> RenderableTrigger
+        public RenderableBounds<Tleft, Ttop, Tright, Tbottom> RenderableTrigger
         {
-            get => new RenderableBounds<T>()
+            get => new RenderableBounds<Tleft, Ttop, Tright, Tbottom> ()
             {
                 Left = Trigger.Left,
                 Top = Trigger.Top,
                 Right = Trigger.Right,
                 Bottom = Trigger.Bottom,
             };
-            //            set; 
         }
 
-        IBounds<T> IRenderableZoneBase<T>.Target => RenderableTarget;
+        IBounds<Tleft, Ttop, Tright, Tbottom> IRenderableZoneBase<Tleft, Ttop, Tright, Tbottom>.Target => RenderableTarget;
 
-        IBounds<T> IRenderableZoneBase<T>.Trigger => RenderableTrigger;
+        IBounds<Tleft, Ttop, Tright, Tbottom> IRenderableZoneBase<Tleft, Ttop, Tright, Tbottom>.Trigger => RenderableTrigger;
     }
 }

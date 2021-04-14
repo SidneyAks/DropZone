@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace ZoneRenderer
 {
 
-    public abstract class ZoneBase<T>
+    public abstract class ZoneBase<Tleft, Ttop, Tright, Tbottom>
     {
         [XmlAttribute]
         public string Name { get; set; }
@@ -27,7 +27,7 @@ namespace ZoneRenderer
 
         public override bool Equals(object obj)
         {
-            if (obj is ZoneBase<T> other)
+            if (obj is ZoneBase<Tleft, Ttop, Tright, Tbottom> other)
             {
                 return this.Name == other.Name &&
                     this.Screens == other.Screens &&
@@ -37,18 +37,18 @@ namespace ZoneRenderer
             return false;
         }
 
-        public static bool operator ==(ZoneBase<T> lhs, ZoneBase<T> rhs)
+        public static bool operator ==(ZoneBase<Tleft, Ttop, Tright, Tbottom> lhs, ZoneBase<Tleft, Ttop, Tright, Tbottom> rhs)
         {
             return (lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
         }
 
-        public static bool operator !=(ZoneBase<T> lhs, ZoneBase<T> rhs)
+        public static bool operator !=(ZoneBase<Tleft, Ttop, Tright, Tbottom> lhs, ZoneBase<Tleft, Ttop, Tright, Tbottom> rhs)
         {
             return !(lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
         }
 
-        public Bounds<T> Target { get; set; }
-        public Bounds<T> Trigger { get; set; }
+        public Bounds<Tleft, Ttop, Tright, Tbottom> Target { get; set; }
+        public Bounds<Tleft, Ttop, Tright, Tbottom> Trigger { get; set; }
     }
 
 }

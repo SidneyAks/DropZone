@@ -14,7 +14,8 @@ namespace ZoneRenderer
 
         [XmlArray("Zones")]
         [XmlArrayItem("DropZone")]
-        public List<IRenderableZoneBase<IRenderableBound>> List { get; private set; } = new List<IRenderableZoneBase<IRenderableBound>>();
+        public List<IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>> List { get; private set; } = 
+            new List<IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>>();
 
         public override bool Equals(object obj)
         {
