@@ -3,10 +3,13 @@ using System.Diagnostics;
 
 namespace ZoneRenderer
 {
-    public interface IBounds<out Tleft, out Ttop, out Tright, out Tbottom> { }
-
-    public interface IBounds<out T> : IBounds<T,T,T,T> { }
-
+    public interface IBounds<out Tleft, out Ttop, out Tright, out Tbottom>
+    {
+        Tleft Left { get;}
+        Ttop Top { get; }
+        Tright Right { get; }
+        Tbottom Bottom { get; }
+    }
 
     [DebuggerDisplay("{Left},{Top},{Right},{Bottom}")]
     public class Bounds<Tleft, Ttop, Tright, Tbottom> : IBounds<Tleft, Ttop, Tright, Tbottom>

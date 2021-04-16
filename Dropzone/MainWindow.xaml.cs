@@ -9,6 +9,7 @@ using ZoneRenderer;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Markup;
+using System.Globalization;
 
 namespace DropZone
 {

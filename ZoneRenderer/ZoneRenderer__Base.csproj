@@ -56,7 +56,6 @@
     <Compile Include="RenderableZoneBase.cs" />
     <Compile Include="RenderedLayout.cs" />
     <Compile Include="ZoneRendered.cs" />
-    <Compile Include="ZoneBase_T.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
