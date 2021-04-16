@@ -3,9 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
+using System.Xml.Serialization;
+using ZoneRenderer;
 
 namespace DropZone
 
@@ -21,7 +25,6 @@ namespace DropZone
         [STAThread]
         public static void Main()
         {
-            int i = 0;
             var args = Environment.GetCommandLineArgs().Skip(1);
             if (!args.Any(x => x == "management"))
             {
@@ -49,9 +52,6 @@ namespace DropZone
         {
             DropZone.Settings.Reload();
             Program.RestartCore();
-//            SingleInstance.Dispatcher.ClosePipe();
-//            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "Silent");
-//            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         [DipatchRegistration("Close")]

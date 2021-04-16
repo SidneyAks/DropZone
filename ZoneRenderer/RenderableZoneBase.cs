@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace ZoneRenderer
 {
@@ -19,7 +21,7 @@ namespace ZoneRenderer
 
         IBounds<Tleft, Ttop, Tright, Tbottom> Trigger { get; }
 
-        RenderedZone Render(int x, int y, int LayoutWidth, int LayoutHeight);
+        RenderedZone Render(ScreenInfo.DisplayInfoCollection DI, int x, int y, int LayoutWidth, int LayoutHeight);
     }
 
     [Serializable]
@@ -31,14 +33,14 @@ namespace ZoneRenderer
         where Tright : IRenderableBound
         where Tbottom : IRenderableBound
     {
-        public RenderedZone Render(int x, int y, int LayoutWidth, int LayoutHeight)
+        public RenderedZone Render(ScreenInfo.DisplayInfoCollection DI, int x, int y, int LayoutWidth, int LayoutHeight)
         {
             return new RenderedZone()
             {
                 Name = this.Name,
                 Zone = (IRenderableZoneBase<IRenderableBound, IRenderableBound, IRenderableBound, IRenderableBound>)this,
-                Target = this.RenderableTarget.RenderBounds(x, y, LayoutWidth, LayoutHeight),
-                Trigger = this.RenderableTrigger?.RenderBounds(x, y, LayoutWidth, LayoutHeight)
+                Target = this.RenderableTarget.RenderBounds(DI, x, y, LayoutWidth, LayoutHeight),
+                Trigger = this.RenderableTrigger?.RenderBounds(DI, x, y, LayoutWidth, LayoutHeight)
             };
         }
 

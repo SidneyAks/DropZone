@@ -9,6 +9,7 @@ namespace ZoneRenderer
     [XmlRoot("Layouts")]
     public class LayoutCollection
     {
+
         public List<Layout> List { get; set; }
 
         public Layout ParentLayout { get; set; }

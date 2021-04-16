@@ -48,14 +48,14 @@ namespace ZoneRenderer
         where Tright : IRenderableBound
         where Tbottom : IRenderableBound
     {
-        public Bounds<int, int, int, int> RenderBounds(int x, int y, int LayoutWidth, int LayoutHeight)
+        public Bounds<int, int, int, int> RenderBounds(ScreenInfo.DisplayInfoCollection DI, int x, int y, int LayoutWidth, int LayoutHeight)
         {
             return new Bounds<int, int, int, int>
             {
-                Top = Top.RenderBound(RectangleSide.Top, y, LayoutHeight),//(int)(LayoutHeight * Top.Decimal) + y,
-                Bottom = Bottom.RenderBound(RectangleSide.Bottom, y, LayoutHeight),//(int)(LayoutHeight * Bottom.Decimal) + y,
-                Left = Left.RenderBound(RectangleSide.Left, x, LayoutWidth),//(int)(LayoutWidth * Left.Decimal) + x,
-                Right = Right.RenderBound(RectangleSide.Right, x, LayoutWidth),//(int)(LayoutWidth * Right.Decimal) + x,
+                Top = Top.RenderBound(DI, RectangleSide.Top, y, LayoutHeight),//(int)(LayoutHeight * Top.Decimal) + y,
+                Bottom = Bottom.RenderBound(DI, RectangleSide.Bottom, y, LayoutHeight),//(int)(LayoutHeight * Bottom.Decimal) + y,
+                Left = Left.RenderBound(DI, RectangleSide.Left, x, LayoutWidth),//(int)(LayoutWidth * Left.Decimal) + x,
+                Right = Right.RenderBound(DI, RectangleSide.Right, x, LayoutWidth),//(int)(LayoutWidth * Right.Decimal) + x,
 
             };
         }

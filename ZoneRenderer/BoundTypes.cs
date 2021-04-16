@@ -17,7 +17,7 @@ namespace ZoneRenderer
 
     public interface IRenderableBound
     {
-        int RenderBound(RectangleSide Side, int Offset, int Dimension);
+        int RenderBound(ScreenInfo.DisplayInfoCollection DI, RectangleSide Side, int Offset, int Dimension);
     }
 
     [Serializable]
@@ -68,7 +68,7 @@ namespace ZoneRenderer
             return new Ratio() { Value = str };
         }
 
-        public decimal Decimal => ((decimal)numerator / (decimal)denominator);
+        private decimal Decimal => ((decimal)numerator / (decimal)denominator);
 
         public override bool Equals(object obj)
         {
@@ -81,7 +81,7 @@ namespace ZoneRenderer
             return false;
         }
 
-        public int RenderBound(RectangleSide Side, int Offset, int Dimension)
+        public int RenderBound(ScreenInfo.DisplayInfoCollection DI, RectangleSide Side, int Offset, int Dimension)
         {
             return (int)(Dimension * Decimal) + Offset;
         }
@@ -92,6 +92,59 @@ namespace ZoneRenderer
         }
 
         public static bool operator !=(Ratio lhs, Ratio rhs)
+        {
+            return !(lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
+        }
+    }
+
+    [Serializable]
+    [DebuggerDisplay("{Value}")]
+    public class MonitorEdge : IRenderableBound
+    {
+        public override string ToString() => $"{Value}";
+
+        [XmlText]
+        public int Value { get; set; }
+
+        public static implicit operator MonitorEdge(string val)
+        {
+            return new MonitorEdge() { Value = Int32.Parse(val) - 1 };
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Ratio other)
+            {
+                return this.Value.Equals(other.Value);
+            }
+            return false;
+        }
+
+        public int RenderBound(ScreenInfo.DisplayInfoCollection DI, RectangleSide Side, int Offset, int Dimension)
+        {
+            var display = DI[Value];
+
+            switch (Side)
+            {
+                case RectangleSide.Left:
+                    return display.WorkArea.Left;
+                case RectangleSide.Top:
+                    return display.WorkArea.Top;
+                case RectangleSide.Right:
+                    return display.WorkArea.Right;
+                case RectangleSide.Bottom:
+                    return display.WorkArea.Bottom;
+            }
+            return 0;
+
+        }
+
+        public static bool operator ==(MonitorEdge lhs, MonitorEdge rhs)
+        {
+            return (lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
+        }
+
+        public static bool operator !=(MonitorEdge lhs, MonitorEdge rhs)
         {
             return !(lhs?.Equals(rhs) ?? Object.ReferenceEquals(rhs, null));
         }
